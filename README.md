@@ -72,9 +72,14 @@ Sebelum menjalankan proyek, Anda perlu mendapatkan API Key berikut:
 Proyek ini dibuat untuk membantu para profesional, pengembang, dan desainer dalam membuat representasi digital dari pengalaman kerja mereka tanpa harus menulis kode manual, namun tetap mendapatkan hasil yang unik dan estetik.
 
 ## 📝 Lisensi & Penulis
+
 Proyek ini dikembangkan dan dikelola sepenuhnya oleh:
 **Moh Muslih Sahmat**
 
 ---
-© 2026 PortoVibe - Elevate your portfolio with
-a professional vibe.
+### ⚠️ Peringatan Hak Cipta (Disclaimer)
+**Seluruh kode, desain, dan konsep PortoVibe AI adalah milik intelektual pengembang.** 
+Dilarang keras menyalin, menduplikasi, atau mendistribusikan ulang proyek ini untuk tujuan komersial atau diklaim sebagai milik pribadi tanpa izin tertulis dari penulis. Mari hargai karya kreatif dan integritas akademik.
+
+---
+© 2026 PortoVibe - Elevate your portfolio with a professional vibe.
