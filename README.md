@@ -1,5 +1,5 @@
 # PortoVibe AI 🚀
-**PortoVibe AI** adalah platform pembuat portofolio berbasis AI yang dirancang untuk mengubah teks CV atau profil LinkedIn mentah menjadi website portofolio yang interaktif, animasi, dan memiliki desain premium secara instan.
+**PortoVibe AI** adalah platform pembuat portofolio berbasis AI yang dirancang untuk mengubah teks CV  mentah dalam bentuk pdf menjadi website portofolio yang interaktif, animasi, dan memiliki desain premium secara instan.
 
 ## ✨ Fitur Utama
 - **AI-Powered Generation**: Menggunakan model Gemini AI tercanggih untuk menyusun layout dan kode React secara dinamis.
