@@ -12,7 +12,7 @@
 - **Frontend**: [React.js](https://reactjs.org/) (Vite)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) & Vanilla CSS untuk efek Glassmorphism.
 - **AI Engine**: [Google Gemini AI API](https://ai.google.dev/)
-- **Backend/Database**: [Firebase](https://firebase.google.com/) (Firestore & Authentication)
+- **Backend/Database**: [Firebase](https://firebase.google.com/) (Firestore)
 - **Icons**: [Lucide React](https://lucide.dev/) & React Icons
 - **Transpiler**: [@babel/standalone](https://babeljs.io/docs/en/babel-standalone) (untuk eksekusi kode dinamis)
 
