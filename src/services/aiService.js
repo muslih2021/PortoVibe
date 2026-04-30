@@ -98,15 +98,15 @@ Every portfolio MUST look fundamentally different.
 const GEMINI_MODELS = [
   "gemini-3-flash-preview",
   "gemini-2.5-flash-image",
-  // "gemini-2.5-flash-lite",
-  // "gemini-2.0-flash-001",
-  // "gemini-2.0-flash-lite",
-  // "gemini-2.0-flash-lite-001",
-  // "gemini-2.5-flash",
-  // "gemini-3.1-flash-preview",
-  // "gemini-3.1-flash-lite-preview",
-  // "gemini-2.0-flash",
-  // "gemini-3.1-flash-image-preview",
+  "gemini-2.5-flash-lite",
+  "gemini-2.0-flash-001",
+  "gemini-2.0-flash-lite",
+  "gemini-2.0-flash-lite-001",
+  "gemini-2.5-flash",
+  "gemini-3.1-flash-preview",
+  "gemini-3.1-flash-lite-preview",
+  "gemini-2.0-flash",
+  "gemini-3.1-flash-image-preview",
 ];
 
 export async function callAI(resumeText, customNotes, apiKey, userSelectedTheme, username, onProgress) {
@@ -218,9 +218,9 @@ async function tryWithFallback(prompt, apiKey, onProgress) {
     }
 
     if (i < GEMINI_MODELS.length - 1) {
-      if (onProgress) onProgress(i + 1, GEMINI_MODELS.length, 'Model ' + modelName + ' gagal. Menunggu jeda 30 detik...');
-      console.log('Menunggu 30 detik sebelum mencoba model berikutnya...');
-      await new Promise(resolve => setTimeout(resolve, 30000));
+      if (onProgress) onProgress(i + 1, GEMINI_MODELS.length, 'Model ' + modelName + ' gagal. Menunggu jeda 10 detik...');
+      console.log('Menunggu 10 detik sebelum mencoba model berikutnya...');
+      await new Promise(resolve => setTimeout(resolve, 10000));
     }
   }
   throw new Error('Semua model Gemini gagal. Terakhir: ' + lastError);
