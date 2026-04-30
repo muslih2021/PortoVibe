@@ -1,21 +1,73 @@
-# PortoVibe AI 🚀
-**PortoVibe AI** adalah platform pembuat portofolio berbasis AI yang dirancang untuk mengubah teks CV  mentah dalam bentuk pdf menjadi website portofolio yang interaktif, animasi, dan memiliki desain premium secara instan.
+# PortoVibe 🚀
+
+**PortoVibe** adalah platform pembuat portofolio berbasis AI yang dirancang untuk mengubah teks CV mentah (PDF) menjadi website portofolio yang interaktif, beranimasi, dan memiliki desain premium secara instan.
 
 ## ✨ Fitur Utama
 - **AI-Powered Generation**: Menggunakan model Gemini AI tercanggih untuk menyusun layout dan kode React secara dinamis.
-- **Multi-Theme Support**: Tersedia berbagai pilihan tema desain mulai dari *Maximalism*, *Neo-Brutalism*, *Glassmorphism*, hingga tema terbaru seperti *Retro Comic* dan *Cyan Modern*.
+- **No-Code Solution**: Membantu orang awam membuat website profesional tanpa pengetahuan koding sedikit pun.
+- **Architectural Fluidity**: AI secara otomatis menyesuaikan struktur grid dan pola interaksi berdasarkan sistem desain yang dipilih.
+- **Multi-Theme Support**: Berbagai pilihan tema mulai dari *Maximalism*, *Neo-Brutalism*, *Glassmorphism*, hingga *Retro Comic*.
 - **Dynamic Rendering**: Menggunakan transpiler di sisi klien untuk merender komponen React yang dibuat oleh AI secara real-time.
-- **Bento Grid Layout**: Desain modern yang terinspirasi dari tren UI/UX terkini.
-- **Responsive Design**: Hasil portofolio yang sepenuhnya responsif untuk perangkat mobile, tablet, dan desktop.
 
 ## 🛠️ Teknologi yang Digunakan
 - **Frontend**: [React.js](https://reactjs.org/) (Vite)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) & Vanilla CSS untuk efek Glassmorphism.
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) & Vanilla CSS (Modern Glassmorphism & Bento Grid)
+- **Typography**: [Sora](https://fonts.google.com/specimen/Sora) (Headings) & [Inter](https://fonts.google.com/specimen/Inter) (Body)
 - **AI Engine**: [Google Gemini AI API](https://ai.google.dev/)
-- **Backend/Database**: [Firebase](https://firebase.google.com/) (Firestore)
-- **Icons**: [Lucide React](https://lucide.dev/) & React Icons
-- **Transpiler**: [@babel/standalone](https://babeljs.io/docs/en/babel-standalone) (untuk eksekusi kode dinamis)
+- **Backend/Database**: [Firebase](https://firebase.google.com/) (Firestore & Storage)
+- **Transpiler**: [@babel/standalone](https://babeljs.io/docs/en/babel-standalone)
 
+---
+
+## 🔑 Persiapan API Keys
+
+Sebelum menjalankan proyek, Anda perlu mendapatkan API Key berikut:
+
+### 1. Google Gemini AI
+*   Buka [Google AI Studio](https://aistudio.google.com/).
+*   Klik **"Get API Key"** dan buat kunci baru.
+*   Simpan ke `VITE_GEMINI_API_KEY`.
+
+### 2. Firebase Config
+*   Buat proyek di [Firebase Console](https://console.firebase.google.com/).
+*   Tambahkan aplikasi Web dan salin konfigurasi SDK-nya.
+*   Masukkan nilainya ke variabel `VITE_FIREBASE_...` yang sesuai.
+
+---
+
+## 🚀 Cara Menjalankan di Lokal
+
+1.  **Clone Repositori**
+    ```bash
+    git clone [https://github.com/username/portovibe-ai.git](https://github.com/username/portovibe-ai.git)
+    cd portovibe-ai
+    ```
+
+2.  **Instalasi Dependency**
+    ```bash
+    npm install
+    ```
+
+3.  **Konfigurasi Environment**
+    Buat file `.env.local` di root folder dan isi dengan data berikut:
+    ```env
+    # FIREBASE CONFIGURATION
+    VITE_FIREBASE_API_KEY=xxx
+    VITE_FIREBASE_AUTH_DOMAIN=xxx
+    VITE_FIREBASE_PROJECT_ID=xxx
+    VITE_FIREBASE_STORAGE_BUCKET=xxx
+    VITE_FIREBASE_MESSAGING_SENDER_ID=xxx
+    VITE_FIREBASE_APP_ID=xxx
+    VITE_FIREBASE_MEASUREMENT_ID=xxx
+
+    # AI API KEYS
+    VITE_GEMINI_API_KEY=xxx
+    ```
+
+4.  **Jalankan Aplikasi**
+    ```bash
+    npm run dev
+    
 ## 🎯 Tujuan Proyek
 Proyek ini dibuat untuk membantu para profesional, pengembang, dan desainer dalam membuat representasi digital dari pengalaman kerja mereka tanpa harus menulis kode manual, namun tetap mendapatkan hasil yang unik dan estetik.
 
@@ -24,4 +76,5 @@ Proyek ini dikembangkan dan dikelola sepenuhnya oleh:
 **Moh Muslih Sahmat**
 
 ---
-© 2026 PortoVibe AI - Crafted with passion and AI.
+© 2026 PortoVibe - Elevate your portfolio with
+a professional vibe.
