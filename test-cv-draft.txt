@@ -1,0 +1,122 @@
+ALEXANDER JAMES MITCHELL
+Full-Stack Software Engineer & UI/UX Enthusiast
+
+Location: Jakarta, Indonesia
+Email: alex.mitchell.dev@gmail.com
+LinkedIn: linkedin.com/in/alexjmitchell
+GitHub: github.com/alexmitchell
+
+---
+
+PROFESSIONAL SUMMARY
+Creative and detail-oriented Full-Stack Software Engineer with 4+ years of experience building scalable web applications, designing intuitive user interfaces, and leading cross-functional development teams. Passionate about clean code architecture, modern frontend frameworks, and delivering pixel-perfect digital experiences. Proven track record of shipping production-grade products used by over 50,000 active users.
+
+---
+
+WORK EXPERIENCE
+
+Senior Frontend Developer | TechNova Solutions, Jakarta
+January 2024 - Present
+- Led the complete redesign of the company's flagship SaaS dashboard, resulting in a 40% increase in user engagement and a 25% reduction in customer support tickets.
+- Architected a modular React component library with 60+ reusable components, adopted across 5 internal products.
+- Implemented real-time data visualization dashboards using D3.js and WebSocket connections, processing over 10,000 data points per second.
+- Mentored a team of 4 junior developers through weekly code reviews and pair programming sessions.
+- Optimized application bundle size by 55% through code splitting, lazy loading, and tree shaking strategies.
+
+Full-Stack Developer | CreativeHub Digital Agency, Bandung
+June 2022 - December 2023
+- Developed and deployed 12 client-facing web applications using React, Next.js, and Node.js, serving industries including e-commerce, healthcare, and education.
+- Built a custom CMS platform from scratch that reduced content publishing time by 70% for non-technical clients.
+- Integrated third-party APIs including Stripe, Midtrans, Google Maps, and SendGrid for payment processing, geolocation, and email automation.
+- Designed and implemented RESTful APIs and GraphQL endpoints serving 100,000+ daily requests with 99.9% uptime.
+- Collaborated with UI/UX designers to translate Figma prototypes into responsive, accessible web interfaces following WCAG 2.1 AA standards.
+
+Junior Web Developer | StartupForge Indonesia, Yogyakarta
+August 2021 - May 2022
+- Contributed to the development of a social media analytics platform used by 500+ small businesses across Southeast Asia.
+- Built interactive data charts and reporting features using Chart.js and Recharts.
+- Implemented user authentication and authorization systems using JWT tokens and OAuth 2.0 with Google and Facebook providers.
+- Participated in Agile/Scrum ceremonies including daily standups, sprint planning, and retrospectives.
+- Wrote comprehensive unit tests achieving 85% code coverage using Jest and React Testing Library.
+
+---
+
+PROJECTS
+
+PortoVibe AI - AI-Powered Portfolio Generator
+- Developed a web platform that converts raw CV text into fully designed, animated portfolio websites using Google Gemini AI.
+- Implemented a multi-model fallback system with 11 Gemini model variants for maximum reliability.
+- Built a real-time React component transpiler using Babel Standalone for dynamic code rendering.
+- Integrated Firebase Firestore for persistent portfolio storage and sharing.
+- Tech Stack: React, Vite, Firebase, Google Gemini API, Babel Standalone.
+
+EcoTrack - Environmental Impact Dashboard
+- Created a comprehensive environmental monitoring dashboard that tracks carbon emissions, water usage, and waste management metrics for corporate sustainability teams.
+- Developed custom animated SVG charts and interactive maps displaying real-time environmental data from IoT sensors.
+- Implemented machine learning predictions for future environmental impact using TensorFlow.js.
+- Built a notification system that alerts stakeholders when metrics exceed predefined thresholds.
+- Tech Stack: Next.js, PostgreSQL, Prisma, TensorFlow.js, Mapbox GL.
+
+TaskFlow Pro - Project Management Platform
+- Designed and built a Kanban-style project management tool with drag-and-drop functionality, real-time collaboration, and automated workflow triggers.
+- Implemented WebSocket-based real-time updates allowing multiple team members to collaborate simultaneously.
+- Built an AI-powered task prioritization engine that analyzes project deadlines and team workload distribution.
+- Integrated with Slack, Discord, and Microsoft Teams for cross-platform notifications.
+- Tech Stack: React, Node.js, MongoDB, Socket.io, Redis.
+
+---
+
+SKILLS
+
+Programming Languages: JavaScript (ES6+), TypeScript, Python, PHP, SQL
+Frontend: React.js, Next.js, Vue.js, HTML5, CSS3, Tailwind CSS, SASS, Framer Motion
+Backend: Node.js, Express.js, NestJS, Django, Laravel
+Databases: PostgreSQL, MongoDB, MySQL, Firebase Firestore, Redis
+DevOps & Tools: Docker, AWS (EC2, S3, Lambda), Vercel, Netlify, GitHub Actions, CI/CD
+Design Tools: Figma, Adobe XD, Adobe Photoshop, Adobe Illustrator
+Others: Git, REST API, GraphQL, WebSocket, Agile/Scrum, TDD
+
+---
+
+EDUCATION
+
+Bachelor of Computer Science | Universitas Gadjah Mada, Yogyakarta
+2017 - 2021 | GPA: 3.78 / 4.00
+- Thesis: "Adaptive User Interface Generation Using Machine Learning for Personalized Web Experiences"
+- Dean's List recipient for 6 consecutive semesters
+- Teaching Assistant for Web Development and Database Systems courses
+
+---
+
+CERTIFICATIONS
+
+- AWS Certified Cloud Practitioner | Amazon Web Services | 2024
+- Meta Front-End Developer Professional Certificate | Meta (Coursera) | 2023
+- Google UX Design Professional Certificate | Google (Coursera) | 2023
+- MongoDB Certified Developer Associate | MongoDB University | 2022
+- Certified Scrum Developer (CSD) | Scrum Alliance | 2022
+
+---
+
+ORGANIZATIONAL EXPERIENCE
+
+Tech Lead | Google Developer Student Club (GDSC) UGM
+2020 - 2021
+- Led a team of 15 student developers in building open-source projects for local NGOs and community organizations.
+- Organized 8 technical workshops on topics including React, Cloud Computing, and Machine Learning, with an average attendance of 120 participants.
+- Mentored 20+ junior members in web development fundamentals and professional portfolio building.
+- Coordinated the annual "Solution Challenge" hackathon with 200+ participants from 10 universities.
+
+Secretary | Computer Science Student Association (HMIF) UGM
+2019 - 2020
+- Managed internal communications and documentation for a 300-member student organization.
+- Coordinated 15+ events including seminars, workshops, and inter-university programming competitions.
+- Developed the organization's official website and member management system using React and Firebase.
+
+---
+
+LANGUAGES
+
+- English: Professional working proficiency (IELTS 7.5)
+- Indonesian: Native speaker
+- Japanese: Elementary proficiency (JLPT N4)

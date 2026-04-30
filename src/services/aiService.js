@@ -98,15 +98,15 @@ Every portfolio MUST look fundamentally different.
 const GEMINI_MODELS = [
   "gemini-3-flash-preview",
   "gemini-2.5-flash-image",
-  "gemini-2.5-flash-lite",
-  "gemini-2.0-flash-001",
-  "gemini-2.0-flash-lite",
-  "gemini-2.0-flash-lite-001",
-  "gemini-2.5-flash",
-  "gemini-3.1-flash-preview",
-  "gemini-3.1-flash-lite-preview",
-  "gemini-2.0-flash",
-  "gemini-3.1-flash-image-preview",
+  // "gemini-2.5-flash-lite",
+  // "gemini-2.0-flash-001",
+  // "gemini-2.0-flash-lite",
+  // "gemini-2.0-flash-lite-001",
+  // "gemini-2.5-flash",
+  // "gemini-3.1-flash-preview",
+  // "gemini-3.1-flash-lite-preview",
+  // "gemini-2.0-flash",
+  // "gemini-3.1-flash-image-preview",
 ];
 
 export async function callAI(resumeText, customNotes, apiKey, userSelectedTheme, username, onProgress) {
