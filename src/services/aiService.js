@@ -102,6 +102,34 @@ const GEMINI_MODELS = [
   "gemini-2.5-flash",
 ];
 
+export async function refineAI(existingData, userPrompt, apiKey, onProgress) {
+  const prompt = `
+# ORIGINAL PORTFOLIO DATA:
+${JSON.stringify(existingData, null, 2)}
+
+# USER REFINEMENT COMMAND:
+"${userPrompt}"
+
+# TASK:
+You are an incremental code editor. Modify the existing "componentCode", "theme", or "meta" based STRICTLY on the user command.
+1. DO NOT REWRITE THE ENTIRE COMPONENT from scratch.
+2. KEEP the original design language, color palette, and general layout unless specifically asked to change them.
+3. PRESERVE the existing code structure, variable names, and logic.
+4. Only apply the requested changes/fixes.
+5. If the user asks for a color change, only change the color tokens in the theme and the styles in the componentCode.
+6. If the user asks to add a section, insert it into the existing structure without changing other sections.
+
+Return the updated FULL JSON object following the same schema.
+`;
+
+  try {
+    return await tryWithFallback(prompt, apiKey, onProgress);
+  } catch (error) {
+    console.error("AI Refine Error:", error);
+    throw error;
+  }
+}
+
 export async function callAI(resumeText, customNotes, apiKey, userSelectedTheme, username, onProgress) {
   const truncatedText = resumeText;
 

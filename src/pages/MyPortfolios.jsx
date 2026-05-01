@@ -3,13 +3,17 @@ import { useAuth } from '../hooks/useAuth';
 import { db } from '../services/firebase';
 import { collection, query, where, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
-import { ExternalLink, Eye, EyeOff, Trash2, Layout, Clock, Globe, Lock, User } from 'lucide-react';
+import { ExternalLink, Eye, EyeOff, Trash2, Layout, Clock, Globe, Lock, User, Edit3 } from 'lucide-react';
+import { EditPortfolioModal } from '../components/modals/EditPortfolioModal';
 
 const MyPortfolios = () => {
   const { user } = useAuth();
   const [portfolios, setPortfolios] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editingPortfolio, setEditingPortfolio] = useState(null);
   const navigate = useNavigate();
+
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
   useEffect(() => {
     if (!user) {
@@ -65,9 +69,9 @@ const MyPortfolios = () => {
 
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '4rem 2rem' }}>
-      <header style={{ marginBottom: '3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+      <header className="portfolios-header" style={{ marginBottom: '3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '1rem' }}>
         <div>
-          <h1 style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--text)', marginBottom: '0.5rem' }}>Portofolio Saya</h1>
+          <h1 style={{ fontSize: 'var(--title-size, 2.5rem)', fontWeight: 800, color: 'var(--text)', marginBottom: '0.5rem' }}>Portofolio Saya</h1>
           <p style={{ color: 'var(--text-secondary)' }}>Kelola dan atur visibilitas karya AI Anda.</p>
         </div>
         <Link to="/maker" style={{
@@ -79,7 +83,8 @@ const MyPortfolios = () => {
           fontWeight: 700,
           display: 'flex',
           alignItems: 'center',
-          gap: '0.5rem'
+          gap: '0.5rem',
+          whiteSpace: 'nowrap'
         }}>
           <Layout size={18} /> Buat Baru
         </Link>
@@ -101,7 +106,7 @@ const MyPortfolios = () => {
           <Link to="/maker" style={{ color: '#8b5cf6', fontWeight: 700, textDecoration: 'none' }}>Mulai Membuat &rarr;</Link>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '2rem' }}>
+        <div className="portfolios-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
           {portfolios.map((item) => (
             <div key={item.id} style={{
               background: 'var(--card-bg)',
@@ -175,6 +180,23 @@ const MyPortfolios = () => {
                   <ExternalLink size={16} /> Lihat
                 </Link>
                 <button 
+                  onClick={() => setEditingPortfolio(item)}
+                  style={{
+                    padding: '0.7rem',
+                    background: 'var(--bg)',
+                    border: '1px solid var(--card-border)',
+                    borderRadius: '10px',
+                    color: 'var(--text)',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                  title="Edit Portofolio"
+                >
+                  <Edit3 size={18} />
+                </button>
+                <button 
                   onClick={() => toggleVisibility(item.id, item.visibility)}
                   style={{
                     padding: '0.7rem',
@@ -213,6 +235,33 @@ const MyPortfolios = () => {
           ))}
         </div>
       )}
+
+      {editingPortfolio && (
+        <EditPortfolioModal 
+          portfolio={editingPortfolio} 
+          apiKey={apiKey}
+          onClose={() => setEditingPortfolio(null)}
+          onUpdate={(updatedData) => {
+            setPortfolios(prev => prev.map(p => p.id === editingPortfolio.id ? { ...p, ...updatedData } : p));
+          }}
+        />
+      )}
+
+      <style>{`
+        @media (max-width: 768px) {
+          .portfolios-header {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 1.5rem !important;
+          }
+          .portfolios-grid {
+            grid-template-columns: 1fr !important;
+          }
+          :root {
+            --title-size: 2rem;
+          }
+        }
+      `}</style>
     </div>
   );
 };
