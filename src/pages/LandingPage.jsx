@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { LuPalette, LuMonitorSmartphone } from "react-icons/lu";
 import { HiLightningBolt } from "react-icons/hi";
 import { HiGlobeAlt } from "react-icons/hi2";
-import kucingTidur from '../kucing tdr.png';
-import kucingBangun from '../kucing bangun.png';
-import kucingBerdiri from '../kucing berdiri.png';
-import bubbleKucingKerja from '../bumble text kucing kerja.png';
-import suaraKucing from '../suara kucing.mp3';
+import kucingTidur from '../assets/images/kucing tdr.png';
+import kucingBangun from '../assets/images/kucing bangun.png';
+import kucingBerdiri from '../assets/images/kucing berdiri.png';
+import bubbleKucingKerja from '../assets/images/bumble text kucing kerja.png';
+import suaraKucing from '../assets/audio/suara kucing.mp3';
 import { askKucing } from '../services/kucingService';
 
 const LandingPage = ({ onStart }) => {

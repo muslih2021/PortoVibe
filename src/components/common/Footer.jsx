@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logoWhite from '../../logo white 35.png';
-import catGroup from '../../cat group.png';
+import logoWhite from '../../assets/images/logo white 35.png';
+import catGroup from '../../assets/images/cat group.png';
 
 export const Footer = () => (
   <footer style={{ background: '#050506', color: '#fff', padding: '6rem 2rem 2rem', marginTop: '4rem', overflow: 'hidden', borderTop: '1px solid rgba(255,255,255,0.05)', transition: 'none' }}>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles } from 'lucide-react';
-import workCatImage from '../../kucing kerja 1.png';
-import workPawImage from '../../tangan kucing kerja.png';
-import workBubbleImage from '../../bumble text kucing kerja.png';
+import workCatImage from '../../assets/images/kucing kerja 1.png';
+import workPawImage from '../../assets/images/tangan kucing kerja.png';
+import workBubbleImage from '../../assets/images/bumble text kucing kerja.png';
 
 export const ProgressModal = ({ progress }) => {
   const [showCat, setShowCat] = useState(false);

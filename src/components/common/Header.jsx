@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Moon, Sun, Menu, X } from 'lucide-react';
-import logoMain from '../../logo 35.png';
-import logoWhite from '../../logo white 35.png';
+import logoMain from '../../assets/images/logo 35.png';
+import logoWhite from '../../assets/images/logo white 35.png';
 
 export const Header = ({ theme, toggleTheme }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

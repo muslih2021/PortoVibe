@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { AlertCircle } from 'lucide-react';
-import catImage from '../../cat_Eror.png';
-import cryingCatImage from '../../kucing gagal kerja.png';
-import bubbleImage from '../../Cat Eror Chat bumble.png';
+import catImage from '../../assets/images/cat_Eror.png';
+import cryingCatImage from '../../assets/images/kucing gagal kerja.png';
+import bubbleImage from '../../assets/images/Cat Eror Chat bumble.png';
 
 const simplifyError = (msg) => {
   if (!msg) return 'Terjadi kesalahan yang tidak diketahui.';
