@@ -92,21 +92,14 @@ Every portfolio MUST look fundamentally different.
 - Tampilan website harus sangat responsif (mobile, tablet, desktop).
 - Pastikan ada Navbar yang responsif with hamburger menu for small screens.
 #IMPORTAIN : NAVBAR MUST BE RESPONSIVE with hamburger menu when in small screen.
+#importain :jangan ada element yang keluar dari kontainer 
 #IMPORTAIN:"Return ONLY a valid JSON object. Do not include any explanations, markdown code blocks, or text before/after the JSON object. Start with '{' and end with '}'."
 `;
 
 const GEMINI_MODELS = [
   "gemini-3-flash-preview",
-  "gemini-2.5-flash-image",
   "gemini-2.5-flash-lite",
-  "gemini-2.0-flash-001",
-  "gemini-2.0-flash-lite",
-  "gemini-2.0-flash-lite-001",
   "gemini-2.5-flash",
-  "gemini-3.1-flash-preview",
-  "gemini-3.1-flash-lite-preview",
-  "gemini-2.0-flash",
-  "gemini-3.1-flash-image-preview",
 ];
 
 export async function callAI(resumeText, customNotes, apiKey, userSelectedTheme, username, onProgress) {
