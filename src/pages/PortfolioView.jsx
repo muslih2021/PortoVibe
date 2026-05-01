@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { DynamicComponent } from '../components/portfolio/DynamicComponent';
@@ -8,6 +8,8 @@ import { useAuth } from '../hooks/useAuth';
 
 const Portfolio = ({ onRenderError }) => {
   const { username } = useParams();
+  const [searchParams] = useSearchParams();
+  const isPreview = searchParams.get('preview') === 'true';
   const { user } = useAuth();
   const [config, setConfig] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -76,7 +78,17 @@ const Portfolio = ({ onRenderError }) => {
   }
 
   if (config.componentCode) {
-    return <DynamicComponent code={config.componentCode} config={config} onRenderError={onRenderError} />;
+    return (
+      <div style={isPreview ? { overflow: 'hidden', height: '100vh', pointerEvents: 'none' } : {}}>
+        {isPreview && (
+          <style>{`
+            ::-webkit-scrollbar { display: none; }
+            * { transition: none !important; animation-play-state: paused !important; }
+          `}</style>
+        )}
+        <DynamicComponent code={config.componentCode} config={config} onRenderError={onRenderError} />
+      </div>
+    );
   }
 
   return (

@@ -85,18 +85,23 @@ const ShowcasePage = () => {
                 overflow: 'hidden',
                 border: '1px solid var(--card-border)'
               }}>
-                <div style={{
-                  width: '1200px',
-                  height: '800px',
-                  transform: 'scale(0.25)',
-                  transformOrigin: 'top left',
-                  pointerEvents: 'none',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0
-                }}>
-                  {p.componentCode && <DynamicComponent code={p.componentCode} config={p} />}
-                </div>
+                <iframe 
+                  src={`/${p.id}?preview=true`}
+                  title={`Preview ${p.id}`}
+                  style={{
+                    width: '1200px',
+                    height: '800px',
+                    transform: 'scale(0.25)',
+                    transformOrigin: 'top left',
+                    pointerEvents: 'none',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    border: 'none',
+                    overflow: 'hidden'
+                  }}
+                  scrolling="no"
+                />
               </div>
               <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text)' }}>{p.meta?.name || p.id}</h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '1rem' }}>{p.meta?.role || 'Professional Vibe'}</p>
