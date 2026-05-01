@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logoWhite from '../../logo white 35.png';
+import catGroup from '../../cat group.png';
 
 export const Footer = () => (
   <footer style={{ background: '#050506', color: '#fff', padding: '6rem 2rem 2rem', marginTop: '4rem', overflow: 'hidden', borderTop: '1px solid rgba(255,255,255,0.05)', transition: 'none' }}>
@@ -43,18 +44,8 @@ export const Footer = () => (
       </div>
     </div>
 
-    <div style={{
-      textAlign: 'center',
-      fontSize: 'clamp(5rem, 20vw, 15rem)',
-      fontWeight: 900,
-      letterSpacing: '-0.05em',
-      color: '#111',
-      lineHeight: 0.8,
-      marginBottom: '-1rem',
-      userSelect: 'none',
-      opacity: 0.8
-    }}>
-      PortoVibe
+    <div style={{ textAlign: 'center', marginTop: '2rem', marginBottom: '-2rem', display: 'flex', justifyContent: 'center', overflow: 'visible' }}>
+      <img src={catGroup} alt="Kucing Vibe" style={{ width: '100%', maxWidth: '1400px', minWidth: '400px', height: 'auto', objectFit: 'contain', opacity: 0.9, filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.6))' }} />
     </div>
 
     <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '2rem', display: 'flex', justifyContent: 'space-between', color: '#555', fontSize: '0.9rem' }}>
