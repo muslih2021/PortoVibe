@@ -3,6 +3,7 @@ import { AlertCircle } from 'lucide-react';
 import catImage from '../../assets/images/cat_Eror.png';
 import cryingCatImage from '../../assets/images/kucing gagal kerja.png';
 import bubbleImage from '../../assets/images/Cat Eror Chat bumble.png';
+import suaraKucing from '../../assets/audio/suara kucing.mp3';
 
 const simplifyError = (msg) => {
   if (!msg) return 'Terjadi kesalahan yang tidak diketahui.';
@@ -27,6 +28,23 @@ const simplifyError = (msg) => {
   return msg;
 };
 
+const getCatMessage = (msg, isPdf) => {
+  if (isPdf) {
+    return "MEOWWW! Sabar-sabar tapi PDF-nya belum diisi juga?! Mau aku cakar kabel internetnya? Buruan isi sekarang, jangan malas-malasan!";
+  }
+  const lower = msg.toLowerCase();
+  if (lower.includes('limit') || lower.includes('3 portofolio') || lower.includes('jatah 1 portofolio') || lower.includes('gratis')) {
+    return "MEOW... Jatah generate harian kamu sudah habis nih. Istirahat dulu ya, atau login biar bisa dapet jatah lebih banyak!";
+  }
+  if (lower.includes('quota') || lower.includes('rate limit')) {
+    return "Waduh, servernya lagi penuh sesak! AI-nya lagi antri sembako. Tunggu bentar ya, nanti kita coba lagi.";
+  }
+  if (lower.includes('api key')) {
+    return "Aduhhh! Kunci brankas AI-nya salah nih. Coba cek lagi API Key kamu, jangan sampai salah ketik ya!";
+  }
+  return "HUWAAAA... Aku udah begadang ngerjain kodenya, tapi malah error pas dijalankan! Maafin V-Cat ya... Tolong kasih aku kesempatan sekali lagi";
+};
+
 export const ErrorModal = ({ errorMsg, isRenderError, lastRequest, onRegenerate, onClose }) => {
   const [showCat, setShowCat] = useState(false);
   const [showBubble, setShowBubble] = useState(false);
@@ -43,6 +61,9 @@ export const ErrorModal = ({ errorMsg, isRenderError, lastRequest, onRegenerate,
 
   useEffect(() => {
     if (isPdfError || isGenerateError) {
+      const audio = new Audio(suaraKucing);
+      audio.play().catch(e => console.error("Audio error:", e));
+
       const catTimer = setTimeout(() => setShowCat(true), 400);
       const bubbleTimer = setTimeout(() => setShowBubble(true), 1200);
       return () => {
@@ -82,7 +103,7 @@ export const ErrorModal = ({ errorMsg, isRenderError, lastRequest, onRegenerate,
                   display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', padding: '6px'
                 }}>
                   <p style={{ fontSize: '0.6rem', fontWeight: 700, color: '#1a1a1a', lineHeight: 1.35, margin: 0, fontFamily: "'Comic Sans MS', 'Segoe UI', sans-serif" }}>
-                    "MEOWWW! Sabar-sabar tapi PDF-nya belum diisi juga?! Mau aku cakar kabel internetnya? Buruan isi sekarang, jangan malas-malasan!"
+                    "{getCatMessage(errorMsg, true)}"
                   </p>
                   <p style={{ fontSize: '0.65rem', fontWeight: 900, color: '#6b21a8', margin: '3px 0 0 0', fontFamily: "'Comic Sans MS', 'Segoe UI', sans-serif" }}>
                     P-Cat
@@ -122,7 +143,7 @@ export const ErrorModal = ({ errorMsg, isRenderError, lastRequest, onRegenerate,
                   display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', padding: '6px'
                 }}>
                   <p style={{ fontSize: '0.55rem', fontWeight: 700, color: '#1a1a1a', lineHeight: 1.35, margin: 0, fontFamily: "'Comic Sans MS', 'Segoe UI', sans-serif" }}>
-                    "HUWAAAA... Aku udah begadang ngerjain kodenya, tapi malah error pas dijalankan! Maafin V-Cat ya... Tolong kasih aku kesempatan sekali lagi"
+                    "{getCatMessage(errorMsg, false)}"
                   </p>
                   <p style={{ fontSize: '0.6rem', fontWeight: 900, color: '#6b21a8', margin: '3px 0 0 0', fontFamily: "'Comic Sans MS', 'Segoe UI', sans-serif" }}>
                     V-Cat

@@ -39,7 +39,7 @@ const LandingPage = ({ onStart }) => {
     setTimeout(() => {
       setShowDialog(true);
     }, 3000);
-    
+
     playCatSound();
   };
 
@@ -168,7 +168,7 @@ const LandingPage = ({ onStart }) => {
                 <div className="bubble-wrapper">
                   <img src={bubbleKucingKerja} alt="Bubble" className="bubble-img" />
                   <div className="bubble-text">
-                    bangunkan aku kalau mau bertanya sesuatu
+                    bangunkan aku kalau mau bertanya sesuatu, klik aku!
                   </div>
                 </div>
               </div>

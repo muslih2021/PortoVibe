@@ -3,6 +3,7 @@ import { Sparkles } from 'lucide-react';
 import workCatImage from '../../assets/images/kucing kerja 1.png';
 import workPawImage from '../../assets/images/tangan kucing kerja.png';
 import workBubbleImage from '../../assets/images/bumble text kucing kerja.png';
+import suaraKucing from '../../assets/audio/suara kucing.mp3';
 
 export const ProgressModal = ({ progress }) => {
   const [showCat, setShowCat] = useState(false);
@@ -10,6 +11,9 @@ export const ProgressModal = ({ progress }) => {
 
 
   useEffect(() => {
+    const audio = new Audio(suaraKucing);
+    audio.play().catch(e => console.error("Audio error:", e));
+
     const catTimer = setTimeout(() => setShowCat(true), 300);
     const bubbleTimer = setTimeout(() => setShowBubble(true), 800);
     const hideBubbleTimer = setTimeout(() => setShowBubble(false), 200000);

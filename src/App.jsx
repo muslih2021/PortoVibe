@@ -12,13 +12,22 @@ import ShowcasePage from './pages/ShowcasePage';
 import PortfolioView from './pages/PortfolioView';
 import { usePortfolioGenerator } from './hooks/usePortfolioGenerator';
 import { ScrollToHash } from './utils/ScrollToHash';
-import { AuthProvider } from './hooks/useAuth';
+import { AuthProvider, useAuth } from './hooks/useAuth';
 import AuthPage from './pages/AuthPage';
 import MyPortfolios from './pages/MyPortfolios';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 
 function AppInner() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
   
   const {
@@ -33,8 +42,16 @@ function AppInner() {
     handleRenderError,
     showSuccess,
     setShowSuccess,
-    successUsername
+    successUsername,
+    pendingPortfolio,
+    savePendingPortfolio
   } = usePortfolioGenerator();
+
+  useEffect(() => {
+    if (user && pendingPortfolio) {
+      savePendingPortfolio(user.uid);
+    }
+  }, [user, pendingPortfolio, savePendingPortfolio]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -52,6 +69,7 @@ function AppInner() {
 
   return (
     <div style={{ position: 'relative' }}>
+      <ScrollToTop />
       <ScrollToHash />
       {showHeader && <Header theme={theme} toggleTheme={toggleTheme} />}
       
@@ -77,9 +95,14 @@ function AppInner() {
           onView={() => {
             window.open(`/${successUsername}`, '_blank');
           }}
+          isGuest={!user}
+          onLogin={() => {
+            setShowSuccess(false);
+            navigate('/auth');
+          }}
           onClose={() => {
             setShowSuccess(false);
-            navigate('/my-portfolios');
+            if (user) navigate('/my-portfolios');
           }}
         />
       )}

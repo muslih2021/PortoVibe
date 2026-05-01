@@ -3,14 +3,18 @@ import { X, Sparkles, Send } from 'lucide-react';
 import { refineAI } from '../../services/aiService';
 import { db } from '../../services/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
+import { checkEditLimit, incrementEditCount } from '../../services/usageService';
+import { useAuth } from '../../hooks/useAuth';
 import kucingBerdiri from '../../assets/images/kucing berdiri.png';
 import suaraKucing from '../../assets/audio/suara kucing.mp3';
 import { SuccessModal } from './SuccessModal';
 
 export const EditPortfolioModal = ({ portfolio, onClose, onUpdate, apiKey }) => {
+  const { user } = useAuth();
   const [prompt, setPrompt] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [remainingEdits, setRemainingEdits] = useState(null);
   const [displayedText, setDisplayedText] = useState("");
   const targetText = "Meow! Beri perintah saya untuk perbaiki website anda. Apa yang ingin Anda ubah?";
 
@@ -28,12 +32,28 @@ export const EditPortfolioModal = ({ portfolio, onClose, onUpdate, apiKey }) => 
     const audio = new Audio(suaraKucing);
     audio.play().catch(e => console.error("Audio error:", e));
 
+    const getLimit = async () => {
+      if (user) {
+        const limit = await checkEditLimit(user.uid);
+        setRemainingEdits(limit.remaining);
+      }
+    };
+    getLimit();
+
     return () => clearInterval(interval);
-  }, []);
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!prompt.trim() || isProcessing) return;
+
+    if (user) {
+      const limit = await checkEditLimit(user.uid);
+      if (!limit.allowed) {
+        setDisplayedText("Meow... maaf, limit edit harian Anda (6 kali) sudah habis. Silakan coba lagi besok!");
+        return;
+      }
+    }
 
     setIsProcessing(true);
     try {
@@ -43,6 +63,7 @@ export const EditPortfolioModal = ({ portfolio, onClose, onUpdate, apiKey }) => 
 
       if (updatedData) {
         await updateDoc(doc(db, "portfolios", portfolio.id), updatedData);
+        await incrementEditCount(user.uid);
         onUpdate(updatedData);
         setShowSuccess(true);
       }
@@ -100,9 +121,14 @@ export const EditPortfolioModal = ({ portfolio, onClose, onUpdate, apiKey }) => 
           </div>
 
           <div className="vn-actor-right">
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text)', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Sparkles size={24} color="#8b5cf6" /> Mode Perbaikan AI
             </h3>
+            {remainingEdits !== null && (
+              <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+                Sisa kuota edit harian Anda: <strong>{remainingEdits} kali</strong>
+              </p>
+            )}
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <textarea

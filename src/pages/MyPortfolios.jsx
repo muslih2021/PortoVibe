@@ -37,6 +37,7 @@ const MyPortfolios = () => {
     };
 
     fetchPortfolios();
+    window.scrollTo(0, 0);
   }, [user, navigate]);
 
   const toggleVisibility = async (portfolioId, currentVisibility) => {
@@ -68,7 +69,7 @@ const MyPortfolios = () => {
   }
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '4rem 2rem' }}>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '4rem 2rem', minHeight: '100vh' }}>
       <header className="portfolios-header" style={{ marginBottom: '3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '1rem' }}>
         <div>
           <h1 style={{ fontSize: 'var(--title-size, 2.5rem)', fontWeight: 800, color: 'var(--text)', marginBottom: '0.5rem' }}>Portofolio Saya</h1>

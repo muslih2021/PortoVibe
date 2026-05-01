@@ -37,12 +37,17 @@
   box-sizing: border-box;
 }
 
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+}
+
 body {
   background-color: var(--bg);
   color: var(--text);
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
-  overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
   -webkit-font-smoothing: antialiased;
 }
@@ -1015,24 +1020,19 @@ div::-webkit-scrollbar-thumb:hover {
 }
 
 .bubble-occasional {
-  animation: bubbleOccasional 10s infinite;
+  animation: bubbleOccasional 4s infinite;
   transform-origin: bottom left;
   opacity: 0;
 }
 
 @keyframes bubbleOccasional {
-
-  0%,
-  60%,
-  100% {
+  0%, 30%, 100% {
     opacity: 0;
-    transform: scale(0.8);
+    transform: scale(0.8) translateY(10px);
   }
-
-  65%,
-  95% {
+  50%, 95% {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
   }
 }
 
@@ -1161,6 +1161,8 @@ div::-webkit-scrollbar-thumb:hover {
   justify-content: center;
   padding-bottom: 2rem;
   animation: fadeIn 0.5s ease;
+  overflow-y: auto;
+  padding-top: 2rem;
 }
 
 .vn-close-btn {
@@ -1340,15 +1342,16 @@ div::-webkit-scrollbar-thumb:hover {
   }
 
   .vn-actor-left img {
-    height: 180px;
+    height: 140px;
   }
 
   .vn-actor-right {
     width: 100%;
     min-width: unset;
-    padding: 1rem;
+    padding: 1.2rem;
     z-index: 1;
     background: var(--card-bg);
+    margin-bottom: 10px;
   }
 
   .vn-actor-right h3 {
@@ -1372,17 +1375,17 @@ div::-webkit-scrollbar-thumb:hover {
 
 @media (max-width: 480px) {
   .vn-actor-left img {
-    height: 160px;
-    opacity: 1;
+    height: 120px;
   }
 
   .vn-actor-right {
-    width: 100%;
-    margin-bottom: 0;
+    padding: 1rem;
+    border-radius: 12px;
   }
 
   .vn-dialog-box {
     padding: 1.5rem 1rem 1rem;
+    min-height: 120px;
   }
 }
 

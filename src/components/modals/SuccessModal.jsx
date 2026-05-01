@@ -1,7 +1,15 @@
-import React from 'react';
-import { CheckCircle, ExternalLink, Layout } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { CheckCircle, ExternalLink, Layout, LogIn, AlertTriangle } from 'lucide-react';
+import suaraKucing from '../../assets/audio/suara kucing.mp3';
 
-export const SuccessModal = ({ username, onClose, onView }) => {
+export const SuccessModal = ({ username, onClose, onView, isGuest, onLogin }) => {
+  useEffect(() => {
+    if (username) {
+      const audio = new Audio(suaraKucing);
+      audio.play().catch(e => console.error("Audio error:", e));
+    }
+  }, [username]);
+
   if (!username) return null;
 
   return (
@@ -45,11 +53,31 @@ export const SuccessModal = ({ username, onClose, onView }) => {
         </div>
 
         <h2 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--text)', marginBottom: '1rem' }}>
-          Berhasil Dibuat!
+          {isGuest ? 'Preview Siap!' : 'Berhasil Dibuat!'}
         </h2>
-        <p style={{ color: 'var(--text-secondary)', marginBottom: '2.5rem', lineHeight: 1.6 }}>
-          Portofolio AI Anda telah berhasil dibuat dan disimpan. Anda bisa melihatnya sekarang atau mengelolanya nanti.
-        </p>
+        
+        {isGuest ? (
+          <div style={{
+            background: 'rgba(245, 158, 11, 0.1)',
+            border: '1px solid rgba(245, 158, 11, 0.2)',
+            borderRadius: '16px',
+            padding: '1rem',
+            marginBottom: '2rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.8rem',
+            textAlign: 'left'
+          }}>
+            <AlertTriangle size={24} color="#f59e0b" style={{ flexShrink: 0 }} />
+            <p style={{ color: '#d97706', fontSize: '0.9rem', margin: 0, fontWeight: 500 }}>
+              Data Anda <strong>tidak disimpan</strong> karena Anda belum login. Login sekarang untuk menyimpan portofolio ini selamanya!
+            </p>
+          </div>
+        ) : (
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '2.5rem', lineHeight: 1.6 }}>
+            Portofolio AI Anda telah berhasil dibuat dan disimpan. Anda bisa melihatnya sekarang atau mengelolanya nanti.
+          </p>
+        )}
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <button 
@@ -76,26 +104,66 @@ export const SuccessModal = ({ username, onClose, onView }) => {
             <ExternalLink size={20} /> Lihat Hasil
           </button>
           
-          <button 
-            onClick={onClose}
-            style={{
-              width: '100%',
-              padding: '1.2rem',
-              background: 'var(--bg)',
-              color: 'var(--text)',
-              border: '1px solid var(--card-border)',
-              borderRadius: '16px',
-              fontWeight: 600,
-              fontSize: '1rem',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '0.75rem'
-            }}
-          >
-            <Layout size={20} /> Tutup & Lihat Koleksi
-          </button>
+          {isGuest ? (
+            <button 
+              onClick={onLogin}
+              style={{
+                width: '100%',
+                padding: '1.2rem',
+                background: 'var(--text)',
+                color: 'var(--bg)',
+                border: 'none',
+                borderRadius: '16px',
+                fontWeight: 700,
+                fontSize: '1.1rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.75rem'
+              }}
+            >
+              <LogIn size={20} /> Login & Simpan Sekarang
+            </button>
+          ) : (
+            <button 
+              onClick={onClose}
+              style={{
+                width: '100%',
+                padding: '1.2rem',
+                background: 'var(--bg)',
+                color: 'var(--text)',
+                border: '1px solid var(--card-border)',
+                borderRadius: '16px',
+                fontWeight: 600,
+                fontSize: '1rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.75rem'
+              }}
+            >
+              <Layout size={20} /> Tutup & Lihat Koleksi
+            </button>
+          )}
+          
+          {isGuest && (
+            <button 
+              onClick={onClose}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--text-secondary)',
+                fontSize: '0.9rem',
+                cursor: 'pointer',
+                marginTop: '0.5rem',
+                textDecoration: 'underline'
+              }}
+            >
+              Tutup (Data akan hilang)
+            </button>
+          )}
         </div>
       </div>
     </div>

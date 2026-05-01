@@ -90,6 +90,26 @@ const Dashboard = ({ onGenerate, isGenerating, setErrorMsg }) => {
   return (
     <div className="container" style={{ padding: '8rem 2rem 4rem', background: 'var(--bg)', color: 'var(--text)', transition: 'all 0.3s ease' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+        <div style={{
+          background: 'rgba(236, 72, 153, 0.1)',
+          border: '1px solid rgba(236, 72, 153, 0.2)',
+          borderRadius: '16px',
+          padding: '1rem',
+          marginBottom: '1rem',
+          color: 'var(--text)',
+          fontSize: '0.9rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '0.8rem'
+        }}>
+          <Sparkles size={18} color="#ec4899" />
+          <span>
+            <strong>PortoVibe Beta:</strong> Anda dapat membuat hingga <strong>3 portofolio per hari</strong>. 
+            Guest (belum login) hanya bisa membuat <strong>1 portofolio per hari</strong> tanpa fitur simpan. Terima kasih telah mencoba!
+          </span>
+        </div>
+
         {!user && (
           <div style={{
             background: 'rgba(139, 92, 246, 0.1)',
@@ -106,10 +126,10 @@ const Dashboard = ({ onGenerate, isGenerating, setErrorMsg }) => {
           }}>
             <Info size={18} color="#8b5cf6" />
             <span>
-              Anda belum masuk. Portofolio akan disimpan sebagai anonim. 
+              Anda belum masuk. Hasil karya akan muncul sebagai <strong>Preview</strong> dan tidak akan disimpan permanen. 
               <Link to="/auth" style={{ color: '#8b5cf6', fontWeight: 700, marginLeft: '0.5rem', textDecoration: 'none' }}>
                 Masuk sekarang
-              </Link> untuk mengelola koleksi Anda.
+              </Link> untuk menyimpan secara otomatis.
             </span>
           </div>
         )}
