@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { callAI } from '../services/aiService';
+import { useAuth } from './useAuth';
 
 export const usePortfolioGenerator = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState({ current: 0, total: 0, status: '' });
   const [errorMsg, setErrorMsg] = useState(null);
@@ -15,6 +17,8 @@ export const usePortfolioGenerator = () => {
   });
   const [isRenderError, setIsRenderError] = useState(false);
   const [autoRetryCount, setAutoRetryCount] = useState(0);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [successUsername, setSuccessUsername] = useState(null);
 
   const handleGenerate = async (text, notes, selectedTheme) => {
     if (isGenerating) return;
@@ -42,14 +46,25 @@ export const usePortfolioGenerator = () => {
       });
 
       if (data && data.meta && data.meta.username) {
+        // Add user info and visibility
+        const portfolioData = {
+          ...data,
+          userId: user?.uid || 'anonymous',
+          visibility: 'public',
+          createdAt: new Date().toISOString()
+        };
+
         try {
-          await setDoc(doc(db, "portfolios", data.meta.username), data);
+          await setDoc(doc(db, "portfolios", data.meta.username), portfolioData);
         } catch (dbError) {
           console.error("Error saving to Firebase:", dbError);
           setErrorMsg("Portfolio berhasil dibuat, namun gagal disimpan ke database.");
           setIsRenderError(false);
         }
-        navigate(`/${data.meta.username}`);
+        
+        // Instead of navigate, show success modal
+        setSuccessUsername(data.meta.username);
+        setShowSuccess(true);
       } else {
         throw new Error('AI response missing username.');
       }
@@ -83,6 +98,9 @@ export const usePortfolioGenerator = () => {
     isRenderError,
     setIsRenderError,
     handleGenerate,
-    handleRenderError
+    handleRenderError,
+    showSuccess,
+    setShowSuccess,
+    successUsername
   };
 };

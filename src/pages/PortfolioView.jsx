@@ -3,12 +3,15 @@ import { useParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { DynamicComponent } from '../components/portfolio/DynamicComponent';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Lock } from 'lucide-react';
+import { useAuth } from '../hooks/useAuth';
 
 const Portfolio = ({ onRenderError }) => {
   const { username } = useParams();
+  const { user } = useAuth();
   const [config, setConfig] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [accessDenied, setAccessDenied] = useState(false);
 
   useEffect(() => {
     const fetchPortfolio = async () => {
@@ -17,9 +20,15 @@ const Portfolio = ({ onRenderError }) => {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           const data = docSnap.data();
-          setConfig(data);
-          if (data.meta?.full_name) {
-            document.title = `PortoVibe | ${data.meta.full_name}`;
+          
+          // Check visibility
+          if (data.visibility === 'private' && (!user || user.uid !== data.userId)) {
+            setAccessDenied(true);
+          } else {
+            setConfig(data);
+            if (data.meta?.full_name) {
+              document.title = `PortoVibe | ${data.meta.full_name}`;
+            }
           }
         }
       } catch (error) {
@@ -39,6 +48,18 @@ const Portfolio = ({ onRenderError }) => {
     return (
       <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#050506' }}>
         <div className="loading-animation"><Sparkles size={48} color="#8b5cf6" /></div>
+      </div>
+    );
+  }
+
+  if (accessDenied) {
+    return (
+      <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#050506', color: '#fff' }}>
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <Lock size={48} color="#ef4444" style={{ marginBottom: '1.5rem' }} />
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.5rem' }}>Portofolio Private</h2>
+          <p style={{ color: '#999' }}>Maaf, portofolio ini diatur sebagai private oleh pemiliknya.</p>
+        </div>
       </div>
     );
   }

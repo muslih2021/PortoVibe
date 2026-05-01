@@ -5,12 +5,16 @@ import { Header } from './components/common/Header';
 import { Footer } from './components/common/Footer';
 import { ProgressModal } from './components/modals/ProgressModal';
 import { ErrorModal } from './components/modals/ErrorModal';
+import { SuccessModal } from './components/modals/SuccessModal';
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import ShowcasePage from './pages/ShowcasePage';
 import PortfolioView from './pages/PortfolioView';
 import { usePortfolioGenerator } from './hooks/usePortfolioGenerator';
 import { ScrollToHash } from './utils/ScrollToHash';
+import { AuthProvider } from './hooks/useAuth';
+import AuthPage from './pages/AuthPage';
+import MyPortfolios from './pages/MyPortfolios';
 
 function AppInner() {
   const navigate = useNavigate();
@@ -26,7 +30,10 @@ function AppInner() {
     isRenderError,
     setIsRenderError,
     handleGenerate,
-    handleRenderError
+    handleRenderError,
+    showSuccess,
+    setShowSuccess,
+    successUsername
   } = usePortfolioGenerator();
 
   useEffect(() => {
@@ -36,7 +43,7 @@ function AppInner() {
 
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
-  const staticPaths = ['/', '/maker', '/showcase'];
+  const staticPaths = ['/', '/maker', '/showcase', '/my-portfolios', '/auth'];
   const isPortfolioPage = !staticPaths.includes(location.pathname) && location.pathname !== '/';
   const isMakerPage = location.pathname === '/maker';
 
@@ -63,10 +70,25 @@ function AppInner() {
           }}
         />
       )}
+      
+      {showSuccess && (
+        <SuccessModal 
+          username={successUsername}
+          onView={() => {
+            window.open(`/${successUsername}`, '_blank');
+          }}
+          onClose={() => {
+            setShowSuccess(false);
+            navigate('/my-portfolios');
+          }}
+        />
+      )}
 
       <div style={{ paddingTop: showHeader ? '5rem' : '0', background: 'var(--bg)' }}>
         <Routes>
           <Route path="/" element={<LandingPage onStart={() => navigate('/maker')} />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/my-portfolios" element={<MyPortfolios />} />
           <Route path="/maker" element={<Dashboard onGenerate={handleGenerate} isGenerating={isGenerating} setErrorMsg={setErrorMsg} />} />
           <Route path="/showcase" element={<ShowcasePage />} />
           <Route path="/:username" element={<PortfolioView onRenderError={handleRenderError} />} />
@@ -81,7 +103,9 @@ function AppInner() {
 export default function App() {
   return (
     <Router>
-      <AppInner />
+      <AuthProvider>
+        <AppInner />
+      </AuthProvider>
     </Router>
   );
 }

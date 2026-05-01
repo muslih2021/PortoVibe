@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Upload, Sparkles, Link as LinkIcon } from 'lucide-react';
+import { Upload, Sparkles, Link as LinkIcon, Info } from 'lucide-react';
+import { useAuth } from '../hooks/useAuth';
+import { Link } from 'react-router-dom';
 import { 
   LuZap, LuPencil, LuBox, LuTriangle, LuSparkles, LuBookOpen, LuLayoutGrid, 
   LuTv, LuLeaf, LuShapes, LuCircle, LuBook
@@ -7,6 +9,7 @@ import {
 import { extractTextFromPdf } from '../utils/pdf';
 
 const Dashboard = ({ onGenerate, isGenerating, setErrorMsg }) => {
+  const { user } = useAuth();
   const [customNotes, setCustomNotes] = useState('');
   const [fileContent, setFileContent] = useState('');
   const [fileName, setFileName] = useState('Click to browse or drag and drop');
@@ -64,12 +67,8 @@ const Dashboard = ({ onGenerate, isGenerating, setErrorMsg }) => {
         setFileContent(text);
         setFileName(`Ready: ${file.name}`);
       } else {
-        const reader = new FileReader();
-        reader.onload = (re) => {
-          setFileContent(re.target.result);
-          setFileName(`Ready: ${file.name}`);
-        };
-        reader.readAsText(file);
+        setErrorMsg('Format file tidak didukung. Mohon unggah file PDF.');
+        setFileName('Pilih file PDF');
       }
     } catch (err) {
       console.error('File error:', err);
@@ -82,7 +81,7 @@ const Dashboard = ({ onGenerate, isGenerating, setErrorMsg }) => {
   const handleSubmit = async () => {
     if (isProcessing || isGenerating) return;
     if (!fileContent) {
-      setErrorMsg('Mohon unggah CV Anda (PDF atau Teks) terlebih dahulu sebelum membuat portofolio.');
+      setErrorMsg('Mohon unggah CV Anda (PDF) terlebih dahulu sebelum membuat portofolio.');
       return;
     }
     await onGenerate(fileContent, customNotes, selectedTheme);
@@ -91,6 +90,29 @@ const Dashboard = ({ onGenerate, isGenerating, setErrorMsg }) => {
   return (
     <div className="container" style={{ padding: '8rem 2rem 4rem', background: 'var(--bg)', color: 'var(--text)', transition: 'all 0.3s ease' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+        {!user && (
+          <div style={{
+            background: 'rgba(139, 92, 246, 0.1)',
+            border: '1px solid rgba(139, 92, 246, 0.2)',
+            borderRadius: '16px',
+            padding: '1rem',
+            marginBottom: '2rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '1rem',
+            color: 'var(--text)',
+            fontSize: '0.9rem'
+          }}>
+            <Info size={18} color="#8b5cf6" />
+            <span>
+              Anda belum masuk. Portofolio akan disimpan sebagai anonim. 
+              <Link to="/auth" style={{ color: '#8b5cf6', fontWeight: 700, marginLeft: '0.5rem', textDecoration: 'none' }}>
+                Masuk sekarang
+              </Link> untuk mengelola koleksi Anda.
+            </span>
+          </div>
+        )}
         <h1 style={{ fontSize: '3.5rem', fontWeight: 800, marginBottom: '1.5rem', color: 'var(--text)' }}>
           Your CV to <span style={{
             background: 'linear-gradient(to right, #8b5cf6, #ec4899)',
@@ -126,8 +148,8 @@ const Dashboard = ({ onGenerate, isGenerating, setErrorMsg }) => {
         </div>
         <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '32px', padding: '3rem', textAlign: 'left', marginBottom: '4rem', boxShadow: '0 20px 40px rgba(0,0,0,0.05)', opacity: isGenerating ? 0.7 : 1, pointerEvents: isGenerating ? 'none' : 'auto' }}>
           <div style={{ marginBottom: '2rem' }}>
-            <label style={{ display: 'block', marginBottom: '1rem', fontWeight: 700, fontSize: '1.1rem', color: 'var(--text)' }}>Upload CV (PDF/Text)</label>
-            <input type="file" id="cv-upload" style={{ display: 'none' }} onChange={handleFileChange} />
+            <label style={{ display: 'block', marginBottom: '1rem', fontWeight: 700, fontSize: '1.1rem', color: 'var(--text)' }}>Upload CV (PDF)</label>
+            <input type="file" id="cv-upload" accept=".pdf" style={{ display: 'none' }} onChange={handleFileChange} />
             <div onClick={() => !isGenerating && document.getElementById('cv-upload').click()}
               className="btn-secondary-hover"
               style={{ border: '2px dashed var(--card-border)', borderRadius: '16px', padding: '3rem', textAlign: 'center', cursor: isGenerating ? 'not-allowed' : 'pointer' }}>

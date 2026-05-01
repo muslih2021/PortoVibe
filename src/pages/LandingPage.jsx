@@ -305,7 +305,7 @@ const LandingPage = ({ onStart }) => {
 
       <section className="reveal cta-section" style={{ padding: '8rem 2rem', textAlign: 'center', backgroundImage: 'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200")', backgroundSize: 'cover', backgroundPosition: 'center', color: '#fff', margin: '2rem 2rem 4rem', borderRadius: '40px', overflow: 'hidden', position: 'relative' }}>
         <h2 style={{ fontSize: '2.8rem', fontWeight: 700, marginBottom: '2rem', position: 'relative', zIndex: 1 }}>Elevate your portfolio with <br /> a professional vibe</h2>
-        <button onClick={onStart} className="btn-primary-hover" style={{ padding: '1rem 3.5rem', background: 'linear-gradient(to right, #8b5cf6, #ec4899)', color: '#fff', borderRadius: '50px', border: 'none', fontWeight: 700, fontSize: '1.2rem', cursor: 'pointer', position: 'relative', zIndex: 1, boxShadow: '0 10px 20px rgba(0,0,0,0.3)' }}>Daftar Sekarang</button>
+        <Link to="/auth" state={{ mode: 'register' }} className="btn-primary-hover" style={{ padding: '1rem 3.5rem', background: 'linear-gradient(to right, #8b5cf6, #ec4899)', color: '#fff', borderRadius: '50px', border: 'none', fontWeight: 700, fontSize: '1.2rem', cursor: 'pointer', position: 'relative', zIndex: 1, boxShadow: '0 10px 20px rgba(0,0,0,0.3)', textDecoration: 'none', display: 'inline-block' }}>Daftar Sekarang</Link>
       </section>
     </div>
   );

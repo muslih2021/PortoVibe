@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Moon, Sun, Menu, X } from 'lucide-react';
+import { Moon, Sun, Menu, X, LogOut, User } from 'lucide-react';
+import { useAuth } from '../../hooks/useAuth';
 import logoMain from '../../assets/images/logo 35.png';
 import logoWhite from '../../assets/images/logo white 35.png';
 
 export const Header = ({ theme, toggleTheme }) => {
+  const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -49,7 +51,29 @@ export const Header = ({ theme, toggleTheme }) => {
           <Link to="/#features" className="nav-link" style={{ color: 'var(--text)' }}>Fitur</Link>
           <Link to="/showcase" className="nav-link" style={{ color: 'var(--text)' }}>Lihat Contoh</Link>
           <Link to="/#faq" className="nav-link" style={{ color: 'var(--text)' }}>Bantuan</Link>
-          <Link to="/maker" className="btn-primary-hover" style={{
+          
+          {user && (
+            <>
+              <Link to="/my-portfolios" className="nav-link" style={{ color: 'var(--text)' }}>Portofolio Saya</Link>
+              <button 
+                onClick={logout}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--text)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  fontSize: '0.9rem'
+                }}
+              >
+                <LogOut size={16} /> Keluar
+              </button>
+            </>
+          )}
+
+          <Link to={user ? "/maker" : "/auth"} className="btn-primary-hover" style={{
             padding: '0.6rem 1.5rem',
             background: 'linear-gradient(to right, #8b5cf6, #ec4899)',
             color: '#fff',
@@ -58,7 +82,7 @@ export const Header = ({ theme, toggleTheme }) => {
             fontWeight: 700,
             fontSize: '0.9rem'
           }}>
-            Mulai Buat
+            {user ? 'Mulai Buat' : 'Login'}
           </Link>
         </div>
 
@@ -95,7 +119,27 @@ export const Header = ({ theme, toggleTheme }) => {
         <Link to="/#features" className="nav-link" style={{ fontSize: '1.5rem', color: 'var(--text)' }} onClick={toggleMenu}>Fitur</Link>
         <Link to="/showcase" className="nav-link" style={{ fontSize: '1.5rem', color: 'var(--text)' }} onClick={toggleMenu}>Lihat Contoh</Link>
         <Link to="/#faq" className="nav-link" style={{ fontSize: '1.5rem', color: 'var(--text)' }} onClick={toggleMenu}>Bantuan</Link>
-        <Link to="/maker" className="btn-primary-hover" onClick={toggleMenu} style={{
+        
+        {user && (
+          <>
+            <Link to="/my-portfolios" className="nav-link" style={{ fontSize: '1.5rem', color: 'var(--text)' }} onClick={toggleMenu}>Portofolio Saya</Link>
+            <button 
+              onClick={() => { logout(); toggleMenu(); }}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--text)',
+                fontSize: '1.5rem',
+                cursor: 'pointer',
+                marginBottom: '1rem'
+              }}
+            >
+              Keluar
+            </button>
+          </>
+        )}
+
+        <Link to={user ? "/maker" : "/auth"} className="btn-primary-hover" onClick={toggleMenu} style={{
           padding: '1.2rem 3rem',
           background: 'linear-gradient(to right, #8b5cf6, #ec4899)',
           color: '#fff',
@@ -110,7 +154,7 @@ export const Header = ({ theme, toggleTheme }) => {
           alignItems: 'center',
           justifyContent: 'center'
         }}>
-          Mulai Buat
+          {user ? 'Mulai Buat' : 'Login'}
         </Link>
       </div>
     </header>
