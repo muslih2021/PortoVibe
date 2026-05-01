@@ -3,10 +3,95 @@ import { Link } from 'react-router-dom';
 import { LuPalette, LuMonitorSmartphone } from "react-icons/lu";
 import { HiLightningBolt } from "react-icons/hi";
 import { HiGlobeAlt } from "react-icons/hi2";
+import kucingTidur from '../kucing tdr.png';
+import kucingBangun from '../kucing bangun.png';
+import kucingBerdiri from '../kucing berdiri.png';
+import bubbleKucingKerja from '../bumble text kucing kerja.png';
+import suaraKucing from '../suara kucing.mp3';
+import { askKucing } from '../services/kucingService';
 
 const LandingPage = ({ onStart }) => {
   const [activeFaq, setActiveFaq] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isCatShaking, setIsCatShaking] = useState(false);
+  const [isCatAwake, setIsCatAwake] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+  const [displayedText, setDisplayedText] = useState("");
+  const [chatInput, setChatInput] = useState("");
+  const [isAsking, setIsAsking] = useState(false);
+  const initialCatText = "Meow! Saya akan menjawab pertanyaan mu tentang portofolio dan juga sistem di website ini .";
+  const [targetText, setTargetText] = useState(initialCatText);
+
+  const handleCatClick = () => {
+    if (isCatAwake) {
+      playCatSound();
+      return;
+    }
+
+    if (!isCatShaking) {
+      setIsCatShaking(true);
+      setTimeout(() => {
+        setIsCatShaking(false);
+      }, 500);
+    }
+
+    setIsCatAwake(true);
+    setTimeout(() => {
+      setShowDialog(true);
+    }, 3000);
+    
+    playCatSound();
+  };
+
+  const playCatSound = () => {
+    const audio = new Audio(suaraKucing);
+    audio.play().catch(e => console.error("Error playing audio:", e));
+  };
+
+  const handleCloseDialog = () => {
+    setShowDialog(false);
+    setIsCatAwake(false);
+    setTargetText(initialCatText);
+  };
+
+  const handleChatSubmit = async (e) => {
+    e.preventDefault();
+    if (!chatInput.trim() || isAsking) return;
+
+    setIsAsking(true);
+    setTargetText("Mengeong memikirkan jawaban...");
+
+    try {
+      const answer = await askKucing(chatInput);
+      setTargetText(answer);
+    } catch (err) {
+      setTargetText("Meow... maaf, sistem sedang bermasalah.");
+    } finally {
+      setIsAsking(false);
+      setChatInput("");
+    }
+  };
+
+  useEffect(() => {
+    if (showDialog && targetText) {
+      setDisplayedText("");
+      let currentIndex = 0;
+
+
+      playCatSound();
+
+      const interval = setInterval(() => {
+        if (currentIndex < targetText.length) {
+          setDisplayedText(targetText.substring(0, currentIndex + 1));
+          currentIndex++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 30);
+
+      return () => clearInterval(interval);
+    }
+  }, [showDialog, targetText]);
 
   useEffect(() => {
     const observerOptions = {
@@ -51,8 +136,47 @@ const LandingPage = ({ onStart }) => {
           <stop offset="100%" stopColor="#ec4899" />
         </linearGradient>
       </svg>
-      <section className="reveal hero-section" style={{ padding: '12rem 2rem 6rem', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '4.5rem', fontWeight: 800, marginBottom: '1.5rem', lineHeight: 1.1, color: 'var(--text)' }}>
+      <section className="reveal hero-section" style={{ padding: '12rem 2rem 6rem', textAlign: 'center', position: 'relative' }}>
+
+        <div className="kucing-tidur-container">
+          <div className="kucing-tidur-wrapper">
+            <div style={{ position: 'relative' }}>
+              <img
+                src={kucingTidur}
+                alt="Kucing Tidur"
+                className={`kucing-tidur-img ${isCatShaking ? 'cat-shake-animate' : ''}`}
+                onClick={handleCatClick}
+                style={{ opacity: isCatAwake ? 0 : 1, transition: 'opacity 0.8s ease' }}
+              />
+              <img
+                src={kucingBangun}
+                alt="Kucing Bangun"
+                className={`kucing-tidur-img ${isCatShaking ? 'cat-shake-animate' : ''}`}
+                onClick={handleCatClick}
+                style={{ opacity: isCatAwake ? 1 : 0, transition: 'opacity 0.8s ease', position: 'absolute', top: 0, left: 0, pointerEvents: isCatAwake ? 'auto' : 'none' }}
+              />
+            </div>
+
+            <div style={{ opacity: isCatAwake ? 0 : 1, transition: 'opacity 0.8s ease', pointerEvents: isCatAwake ? 'none' : 'auto' }}>
+              <div className="zzzz-container">
+                <span className="zzzz-animate zzzz-char zzzz-1">z</span>
+                <span className="zzzz-animate zzzz-char zzzz-2">z</span>
+                <span className="zzzz-animate zzzz-char zzzz-3">z</span>
+              </div>
+
+              <div className="bubble-occasional bubble-occasional-container">
+                <div className="bubble-wrapper">
+                  <img src={bubbleKucingKerja} alt="Bubble" className="bubble-img" />
+                  <div className="bubble-text">
+                    bangunkan aku kalau mau bertanya sesuatu
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h1 className='text-hero-title' style={{ fontSize: '4.5rem', fontWeight: 800, marginBottom: '1.5rem', lineHeight: 1.1, color: 'var(--text)' }}>
           Saatnya Kamu Jadi <br />
           <span className="animated-gradient-text">PortoVibe Maker!</span>
         </h1>
@@ -70,7 +194,7 @@ const LandingPage = ({ onStart }) => {
         </div>
       </section>
 
-      <section className="showcase-grid" style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }}>
+      <section className="showcase-grid image-landing-page" style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }}>
         <div className="showcase-row-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem', marginBottom: '1.5rem' }}>
           {[
             "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600",
@@ -101,6 +225,41 @@ const LandingPage = ({ onStart }) => {
           <div style={{ position: 'relative', maxWidth: '90%', maxHeight: '90%' }}>
             <img src={selectedImage} alt="Preview" style={{ width: '100%', height: 'auto', maxHeight: '85vh', borderRadius: '16px', boxShadow: '0 30px 60px rgba(0,0,0,0.5)', transform: 'scale(1)', animation: 'zoomIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }} />
             <button onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }} style={{ position: 'absolute', top: '-40px', right: '-40px', background: 'none', border: 'none', color: '#fff', fontSize: '2rem', cursor: 'pointer' }}>×</button>
+          </div>
+        </div>
+      )}
+
+      {showDialog && (
+        <div className="vn-overlay">
+          <button className="vn-close-btn" onClick={handleCloseDialog}>×</button>
+          <div className="vn-scene">
+            <div className="vn-actors">
+              <div className="vn-actor-left">
+                <img src={kucingBerdiri} alt="Kucing Berdiri" />
+              </div>
+              <div className="vn-actor-right">
+                <h3>Ada yang ingin ditanyakan?</h3>
+                <form onSubmit={handleChatSubmit}>
+                  <textarea
+                    placeholder="Ketik pesan Anda di sini..."
+                    rows={3}
+                    required
+                    value={chatInput}
+                    onChange={(e) => setChatInput(e.target.value)}
+                    disabled={isAsking}
+                  ></textarea>
+                  <button type="submit" disabled={isAsking}>
+                    {isAsking ? 'Loading...' : 'Kirim Pesan'}
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div className="vn-dialog-box">
+              <span className="vn-name-tag">Kucing Vibes</span>
+              <div className="vn-dialog-content" style={{ maxHeight: '200px', overflowY: 'auto', paddingRight: '10px' }}>
+                <p style={{ whiteSpace: 'pre-wrap' }}>{displayedText}</p>
+              </div>
+            </div>
           </div>
         </div>
       )}
