@@ -5,10 +5,12 @@ import { db } from '../../services/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 import kucingBerdiri from '../../assets/images/kucing berdiri.png';
 import suaraKucing from '../../assets/audio/suara kucing.mp3';
+import { SuccessModal } from './SuccessModal';
 
 export const EditPortfolioModal = ({ portfolio, onClose, onUpdate, apiKey }) => {
   const [prompt, setPrompt] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [displayedText, setDisplayedText] = useState("");
   const targetText = "Meow! Beri perintah saya untuk perbaiki website anda. Apa yang ingin Anda ubah?";
 
@@ -42,7 +44,7 @@ export const EditPortfolioModal = ({ portfolio, onClose, onUpdate, apiKey }) => 
       if (updatedData) {
         await updateDoc(doc(db, "portfolios", portfolio.id), updatedData);
         onUpdate(updatedData);
-        onClose();
+        setShowSuccess(true);
       }
     } catch (err) {
       console.error("Edit error:", err);
@@ -175,6 +177,19 @@ export const EditPortfolioModal = ({ portfolio, onClose, onUpdate, apiKey }) => 
           </div>
         </div>
       </div>
+
+      {showSuccess && (
+        <SuccessModal 
+          username={portfolio.meta?.username}
+          onView={() => {
+            window.open(`/${portfolio.meta?.username}`, '_blank');
+          }}
+          onClose={() => {
+            setShowSuccess(false);
+            onClose();
+          }}
+        />
+      )}
 
       <style>{`
         .vn-actors {
