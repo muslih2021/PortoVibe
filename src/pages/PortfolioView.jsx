@@ -3,7 +3,8 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { DynamicComponent } from '../components/portfolio/DynamicComponent';
-import { Sparkles, Lock } from 'lucide-react';
+import { Lock } from 'lucide-react';
+import LoadingEffect from '../components/common/LoadingEffect';
 import { useAuth } from '../hooks/useAuth';
 
 const Portfolio = ({ onRenderError }) => {
@@ -23,7 +24,7 @@ const Portfolio = ({ onRenderError }) => {
         if (docSnap.exists()) {
           const data = docSnap.data();
           
-          // Check visibility
+
           if (data.visibility === 'private' && (!user || user.uid !== data.userId)) {
             setAccessDenied(true);
           } else {
@@ -46,13 +47,7 @@ const Portfolio = ({ onRenderError }) => {
     };
   }, [username]);
 
-  if (loading) {
-    return (
-      <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#050506' }}>
-        <div className="loading-animation"><Sparkles size={48} color="#8b5cf6" /></div>
-      </div>
-    );
-  }
+  if (loading) return null;
 
   if (accessDenied) {
     return (

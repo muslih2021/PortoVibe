@@ -9,6 +9,13 @@ import kucingBerdiri from '../assets/images/kucing berdiri.png';
 import bubbleKucingKerja from '../assets/images/bumble text kucing kerja.png';
 import suaraKucing from '../assets/audio/suara kucing.mp3';
 import { askKucing } from '../services/kucingService';
+import catOff1 from '../assets/images/cat_office/Gemini_Generated_Image_2pr7s22pr7s22pr7.png';
+import catOff2 from '../assets/images/cat_office/Gemini_Generated_Image_9i95109i95109i95.png';
+import catOff3 from '../assets/images/cat_office/Gemini_Generated_Image_by8traby8traby8t.png';
+import catOff4 from '../assets/images/cat_office/Gemini_Generated_Image_emsg3xemsg3xemsg.png';
+import catOff5 from '../assets/images/cat_office/Gemini_Generated_Image_j8mtmcj8mtmcj8mt.png';
+import catOff6 from '../assets/images/cat_office/Gemini_Generated_Image_nuzwdjnuzwdjnuzw.png';
+import catOff7 from '../assets/images/cat_office/Gemini_Generated_Image_rk78pirk78pirk78.png';
 
 const LandingPage = ({ onStart }) => {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -166,7 +173,7 @@ const LandingPage = ({ onStart }) => {
 
               <div className="bubble-occasional bubble-occasional-container">
                 <div className="bubble-wrapper">
-                  <img src={bubbleKucingKerja} alt="Bubble" className="bubble-img" />
+                  <img src={bubbleKucingKerja} alt="Bubble" className="bubble-img" loading="lazy" />
                   <div className="bubble-text">
                     bangunkan aku kalau mau bertanya sesuatu, klik aku!
                   </div>
@@ -196,25 +203,16 @@ const LandingPage = ({ onStart }) => {
 
       <section className="showcase-grid image-landing-page" style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }}>
         <div className="showcase-row-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem', marginBottom: '1.5rem' }}>
-          {[
-            "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600",
-            "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600",
-            "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600",
-            "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600"
-          ].map((url, i) => (
+          {[catOff1, catOff2, catOff3, catOff4].map((url, i) => (
             <div key={i} onClick={() => setSelectedImage(url)} className={`${i % 2 === 0 ? 'reveal-left' : 'reveal-right'} stagger-${i + 1}`} style={{ height: '320px', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.08)', cursor: 'zoom-in', transition: 'transform 0.3s ease' }}>
-              <img src={url} alt="Showcase" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={url} alt="Showcase" style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />
             </div>
           ))}
         </div>
         <div className="showcase-row-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
-          {[
-            "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800",
-            "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800",
-            "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800"
-          ].map((url, i) => (
+          {[catOff5, catOff6, catOff7].map((url, i) => (
             <div key={i} onClick={() => setSelectedImage(url)} className={`${i === 1 ? 'reveal' : (i === 0 ? 'reveal-left' : 'reveal-right')} stagger-${i + 2}`} style={{ height: '420px', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.08)', cursor: 'zoom-in', transition: 'transform 0.3s ease' }}>
-              <img src={url} alt="Showcase" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={url} alt="Showcase" style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />
             </div>
           ))}
         </div>
@@ -235,7 +233,7 @@ const LandingPage = ({ onStart }) => {
           <div className="vn-scene">
             <div className="vn-actors">
               <div className="vn-actor-left">
-                <img src={kucingBerdiri} alt="Kucing Berdiri" />
+                <img src={kucingBerdiri} alt="Kucing Berdiri" loading="lazy" />
               </div>
               <div className="vn-actor-right">
                 <h3>Ada yang ingin ditanyakan?</h3>

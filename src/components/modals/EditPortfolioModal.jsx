@@ -8,6 +8,7 @@ import { useAuth } from '../../hooks/useAuth';
 import kucingBerdiri from '../../assets/images/kucing berdiri.png';
 import suaraKucing from '../../assets/audio/suara kucing.mp3';
 import { SuccessModal } from './SuccessModal';
+import LoadingEffect from '../common/LoadingEffect';
 
 export const EditPortfolioModal = ({ portfolio, onClose, onUpdate, apiKey }) => {
   const { user } = useAuth();
@@ -154,22 +155,29 @@ export const EditPortfolioModal = ({ portfolio, onClose, onUpdate, apiKey }) => 
                 type="submit"
                 disabled={isProcessing}
                 style={{
-                  padding: '1rem',
-                  background: 'linear-gradient(to right, #8b5cf6, #ec4899)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '12px',
+                  padding: '0.8rem 2rem',
+                  background: 'transparent',
+                  color: '#8b5cf6',
+                  border: '2px solid #8b5cf6',
+                  borderRadius: '50px',
                   fontWeight: 700,
-                  fontSize: '1.1rem',
+                  fontSize: '1rem',
                   cursor: 'pointer',
                   display: 'flex',
+                  height: '2rem',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '0.5rem',
-                  opacity: isProcessing ? 0.7 : 1
+                  gap: '0.8rem',
+                  width: 'fit-content',
+                  margin: '1rem auto 0',
+                  transition: 'all 0.3s ease',
+                  opacity: isProcessing ? 0.7 : 1,
+                  overflow: 'hidden'
                 }}
               >
-                {isProcessing ? 'Sedang Memperbaiki...' : <><Send size={18} /> Kirim Perintah</>}
+                {isProcessing ? (
+                  <LoadingEffect size={25} text="" />
+                ) : <><Send size={18} /> Kirim Perintah</>}
               </button>
             </form>
           </div>
@@ -205,7 +213,7 @@ export const EditPortfolioModal = ({ portfolio, onClose, onUpdate, apiKey }) => 
       </div>
 
       {showSuccess && (
-        <SuccessModal 
+        <SuccessModal
           username={portfolio.meta?.username}
           onView={() => {
             window.open(`/${portfolio.meta?.username}`, '_blank');
@@ -231,8 +239,7 @@ export const EditPortfolioModal = ({ portfolio, onClose, onUpdate, apiKey }) => 
         .vn-actor-right {
           flex: 1.5;
           background: var(--card-bg);
-          padding: 2rem;
-          borderRadius: 24px;
+          padding: 1.5rem;
           border: 1px solid var(--card-border);
           border-radius: 24px;
         }
@@ -263,6 +270,11 @@ export const EditPortfolioModal = ({ portfolio, onClose, onUpdate, apiKey }) => 
           }
           .vn-scene {
             padding-top: 2rem;
+            max-width: 95% !important;
+          }
+          .vn-actor-right button {
+            padding: 0.5rem 1rem !important;
+            font-size: 0.85rem !important;
           }
         }
 

@@ -15,6 +15,8 @@ import { ScrollToHash } from './utils/ScrollToHash';
 import { AuthProvider, useAuth } from './hooks/useAuth';
 import AuthPage from './pages/AuthPage';
 import MyPortfolios from './pages/MyPortfolios';
+import SplashScreen from './components/SplashScreen';
+import OfflineStatus from './components/common/OfflineStatus';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -29,6 +31,9 @@ function AppInner() {
   const location = useLocation();
   const { user } = useAuth();
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  const staticPaths = ['/', '/maker', '/showcase', '/my-portfolios', '/auth'];
+  const isPortfolioPage = !staticPaths.includes(location.pathname) && location.pathname !== '/';
+  const [isAppLoading, setIsAppLoading] = useState(!isPortfolioPage);
   
   const {
     isGenerating,
@@ -60,8 +65,7 @@ function AppInner() {
 
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
-  const staticPaths = ['/', '/maker', '/showcase', '/my-portfolios', '/auth'];
-  const isPortfolioPage = !staticPaths.includes(location.pathname) && location.pathname !== '/';
+
   const isMakerPage = location.pathname === '/maker';
 
   const showHeader = !isPortfolioPage;
@@ -69,6 +73,8 @@ function AppInner() {
 
   return (
     <div style={{ position: 'relative' }}>
+      <OfflineStatus />
+      {isAppLoading && !isPortfolioPage && <SplashScreen onComplete={() => setIsAppLoading(false)} />}
       <ScrollToTop />
       <ScrollToHash />
       {showHeader && <Header theme={theme} toggleTheme={toggleTheme} />}

@@ -36,7 +36,7 @@ export const usePortfolioGenerator = () => {
       return;
     }
 
-    // Check Limits
+
     if (user) {
       const limit = await checkGenerationLimit(user.uid);
       if (!limit.allowed) {
@@ -69,7 +69,7 @@ export const usePortfolioGenerator = () => {
       });
 
       if (data && data.meta && data.meta.username) {
-        // Add user info and visibility
+
         const portfolioData = {
           ...data,
           userId: user?.uid || 'anonymous',
@@ -87,13 +87,13 @@ export const usePortfolioGenerator = () => {
             setIsRenderError(false);
           }
         } else {
-          // Guest mode: Store in state only
+
           const ip = await getIpAddress();
           await incrementIpCount(ip);
           setPendingPortfolio(portfolioData);
         }
         
-        // Instead of navigate, show success modal
+
         setSuccessUsername(data.meta.username);
         setShowSuccess(true);
       } else {

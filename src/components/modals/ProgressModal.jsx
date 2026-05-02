@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles } from 'lucide-react';
+import LoadingEffect from '../common/LoadingEffect';
 import workCatImage from '../../assets/images/kucing kerja 1.png';
 import workPawImage from '../../assets/images/tangan kucing kerja.png';
 import workBubbleImage from '../../assets/images/bumble text kucing kerja.png';
@@ -93,16 +93,8 @@ export const ProgressModal = ({ progress }) => {
           </div>
         </div>
 
-        <div className="modal-content" style={{ animation: 'zoomIn 0.3s ease', position: 'relative', zIndex: 3000 }}>
-          <div style={{ marginBottom: '2rem' }}>
-            <Sparkles className="icon-pulse" size={50} color="#8b5cf6" />
-          </div>
-          <h2 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text)' }}>
-            Architecting Your Vibe
-          </h2>
-          <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
-            Membangun portfolio mewah dalam hitungan detik...
-          </p>
+        <div className="modal-content" style={{ animation: 'zoomIn 0.3s ease', position: 'relative', zIndex: 3000, padding: '1rem' }}>
+          <LoadingEffect size={60} text="Membangun portfolio mewah dalam hitungan detik..." />
 
           <div className="loading-line-container">
             <div className="loading-line"></div>

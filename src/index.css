@@ -1036,7 +1036,7 @@ div::-webkit-scrollbar-thumb:hover {
   }
 }
 
-/* Kucing Tidur Styles */
+
 .kucing-tidur-container {
   position: absolute;
   left: 8%;
@@ -1149,7 +1149,7 @@ div::-webkit-scrollbar-thumb:hover {
   }
 }
 
-/* Visual Novel Dialog Styles */
+
 .vn-overlay {
   position: fixed;
   inset: 0;
@@ -1410,5 +1410,65 @@ div::-webkit-scrollbar-thumb:hover {
   to {
     transform: translateX(0);
     opacity: 1;
+  }
+}
+
+
+.cat-run-wrapper {
+  animation: catGallop 0.8s infinite ease-in-out;
+}
+
+.cat-run-svg {
+  animation: catRun 0.4s infinite alternate ease-in-out;
+  filter: drop-shadow(0 10px 15px rgba(139, 92, 246, 0.2));
+}
+
+@keyframes catGallop {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(-3deg);
+  }
+}
+
+@keyframes catRun {
+  0% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(5px);
+  }
+}
+
+.loading-container {
+  animation: fadeIn 0.5s ease;
+}
+
+.dust-cloud {
+  position: absolute;
+  bottom: -5px;
+  left: 20%;
+  width: 15px;
+  height: 6px;
+  background: rgba(139, 92, 246, 0.2);
+  border-radius: 50%;
+  filter: blur(4px);
+  animation: dustKick 0.8s infinite ease-out;
+  opacity: 0;
+}
+
+@keyframes dustKick {
+  0% {
+    transform: scale(0.5) translateX(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2) translateX(-20px);
+  }
+  100% {
+    transform: scale(1.5) translateX(-40px);
+    opacity: 0;
   }
 }

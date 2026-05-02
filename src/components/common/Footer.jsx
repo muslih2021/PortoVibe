@@ -8,7 +8,7 @@ export const Footer = () => (
     <div className="footer-grid" style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: '4rem', marginBottom: '8rem' }}>
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '1.5rem' }}>
-          <img src={logoWhite} alt="Logo" style={{ height: '45px', width: 'auto' }} />
+          <img src={logoWhite} alt="Logo" style={{ height: '45px', width: 'auto' }} loading="lazy" />
         </div>
         <p style={{ color: '#999', maxWidth: '300px', lineHeight: 1.6 }}>
           Membangun masa depan profesional dengan AI. PortoVibe membantu Anda membuat portofolio bento yang memukau dalam sekejap.
@@ -45,7 +45,7 @@ export const Footer = () => (
     </div>
 
     <div style={{ textAlign: 'center', marginTop: '2rem', marginBottom: '-2rem', display: 'flex', justifyContent: 'center', overflow: 'visible' }}>
-      <img src={catGroup} alt="Kucing Vibe" style={{ width: '100%', maxWidth: '1400px', minWidth: '400px', height: 'auto', objectFit: 'contain', opacity: 0.9, filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.6))' }} />
+      <img src={catGroup} alt="Kucing Vibe" style={{ width: '100%', maxWidth: '1400px', minWidth: '400px', height: 'auto', objectFit: 'contain', opacity: 0.9, filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.6))' }} loading="lazy" />
     </div>
 
     <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '2rem', display: 'flex', justifyContent: 'space-between', color: '#555', fontSize: '0.9rem' }}>

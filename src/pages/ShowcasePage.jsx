@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles } from 'lucide-react';
+import LoadingEffect from '../components/common/LoadingEffect';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { DynamicComponent } from '../components/portfolio/DynamicComponent';
@@ -12,11 +12,11 @@ const ShowcasePage = () => {
   useEffect(() => {
     const fetchPortfolios = async () => {
       try {
-        // Ambil semua untuk memastikan data lama tanpa field visibility tetap muncul
+
         const querySnapshot = await getDocs(collection(db, "portfolios"));
         const list = querySnapshot.docs
           .map(doc => ({ id: doc.id, ...doc.data() }))
-          .filter(p => p.visibility === 'public' || p.visibility === undefined); // Tampilkan yang public atau data lama
+          .filter(p => p.visibility === 'public' || p.visibility === undefined);
         
         setPortfolios(list);
       } catch (error) {
@@ -51,9 +51,7 @@ const ShowcasePage = () => {
   if (loading) {
     return (
       <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div className="loading-animation">
-          <Sparkles size={48} color="#8b5cf6" />
-        </div>
+        <LoadingEffect text="Menyiapkan inspirasi portofolio terbaik buat kamu... Meow!" />
       </div>
     );
   }

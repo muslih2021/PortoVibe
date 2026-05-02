@@ -5,7 +5,7 @@ const DAILY_GENERATE_LIMIT = 3;
 const DAILY_EDIT_LIMIT = 6;
 
 export const checkGenerationLimit = async (userId) => {
-  if (!userId) return { allowed: true }; // Anonymous has its own check via IP
+  if (!userId) return { allowed: true };
 
   const today = new Date().toISOString().split('T')[0];
   const usageRef = doc(db, 'usage', userId);

@@ -27,7 +27,7 @@ export const Header = ({ theme, toggleTheme }) => {
       transition: 'all 0.3s ease'
     }}>
       <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-        <img src={theme === 'dark' ? logoWhite : logoMain} alt="PortoVibe" style={{ height: '32px' }} />
+        <img src={theme === 'dark' ? logoWhite : logoMain} alt="PortoVibe" style={{ height: '32px' }} loading="lazy" />
       </Link>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>

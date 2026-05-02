@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Upload, Sparkles, Link as LinkIcon, Info } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
-import { 
-  LuZap, LuPencil, LuBox, LuTriangle, LuSparkles, LuBookOpen, LuLayoutGrid, 
+import {
+  LuZap, LuPencil, LuBox, LuTriangle, LuSparkles, LuBookOpen, LuLayoutGrid,
   LuTv, LuLeaf, LuShapes, LuCircle, LuBook
 } from "react-icons/lu";
 import { extractTextFromPdf } from '../utils/pdf';
+import LoadingEffect from '../components/common/LoadingEffect';
 
 const Dashboard = ({ onGenerate, isGenerating, setErrorMsg }) => {
   const { user } = useAuth();
@@ -103,9 +104,9 @@ const Dashboard = ({ onGenerate, isGenerating, setErrorMsg }) => {
           justifyContent: 'center',
           gap: '0.8rem'
         }}>
-          <Sparkles size={18} color="#ec4899" />
+
           <span>
-            <strong>PortoVibe Beta:</strong> Anda dapat membuat hingga <strong>3 portofolio per hari</strong>. 
+            <strong>PortoVibe Beta:</strong> Anda dapat membuat hingga <strong>3 portofolio per hari</strong>.
             Guest (belum login) hanya bisa membuat <strong>1 portofolio per hari</strong> tanpa fitur simpan. Terima kasih telah mencoba!
           </span>
         </div>
@@ -126,7 +127,7 @@ const Dashboard = ({ onGenerate, isGenerating, setErrorMsg }) => {
           }}>
             <Info size={18} color="#8b5cf6" />
             <span>
-              Anda belum masuk. Hasil karya akan muncul sebagai <strong>Preview</strong> dan tidak akan disimpan permanen. 
+              Anda belum masuk. Hasil karya akan muncul sebagai <strong>Preview</strong> dan tidak akan disimpan permanen.
               <Link to="/auth" style={{ color: '#8b5cf6', fontWeight: 700, marginLeft: '0.5rem', textDecoration: 'none' }}>
                 Masuk sekarang
               </Link> untuk menyimpan secara otomatis.
@@ -170,11 +171,17 @@ const Dashboard = ({ onGenerate, isGenerating, setErrorMsg }) => {
           <div style={{ marginBottom: '2rem' }}>
             <label style={{ display: 'block', marginBottom: '1rem', fontWeight: 700, fontSize: '1.1rem', color: 'var(--text)' }}>Upload CV (PDF)</label>
             <input type="file" id="cv-upload" accept=".pdf" style={{ display: 'none' }} onChange={handleFileChange} />
-            <div onClick={() => !isGenerating && document.getElementById('cv-upload').click()}
+            <div onClick={() => !isGenerating && !isProcessing && document.getElementById('cv-upload').click()}
               className="btn-secondary-hover"
-              style={{ border: '2px dashed var(--card-border)', borderRadius: '16px', padding: '3rem', textAlign: 'center', cursor: isGenerating ? 'not-allowed' : 'pointer' }}>
-              <Upload size={32} style={{ marginBottom: '1rem', color: '#8b5cf6' }} />
-              <p style={{ fontSize: '1rem', color: 'var(--text-muted)', fontWeight: 500 }}>{fileName}</p>
+              style={{ border: '2px dashed var(--card-border)', borderRadius: '16px', padding: '2rem', textAlign: 'center', cursor: (isGenerating || isProcessing) ? 'not-allowed' : 'pointer', minHeight: '180px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              {isProcessing ? (
+                <LoadingEffect size={80} text="Mengekstrak data CV... Meow!" />
+              ) : (
+                <>
+                  <Upload size={32} style={{ marginBottom: '1rem', color: '#8b5cf6' }} />
+                  <p style={{ fontSize: '1rem', color: 'var(--text-muted)', fontWeight: 500 }}>{fileName}</p>
+                </>
+              )}
             </div>
           </div>
           <div style={{ marginBottom: '2.5rem' }}>
@@ -202,8 +209,8 @@ const Dashboard = ({ onGenerate, isGenerating, setErrorMsg }) => {
               boxShadow: isGenerating ? 'none' : '0 10px 20px rgba(139, 92, 246, 0.2)',
               transition: 'all 0.3s ease'
             }}>
-            {isGenerating ? <div className="loading-animation" style={{ fontSize: '1rem' }}>...</div> : <Sparkles size={20} />} 
-            {isGenerating ? 'Generating Your Portfolio...' : 'Generate My PortoVibe'}
+            {isGenerating ? <LoadingEffect size={40} text="" /> : <Sparkles size={20} />}
+            {isGenerating ? 'Sabar ya, kucing lagi lari bikin porto...' : 'Generate My PortoVibe'}
           </button>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { collection, query, where, getDocs, updateDoc, doc, deleteDoc } from 'fi
 import { Link, useNavigate } from 'react-router-dom';
 import { ExternalLink, Eye, EyeOff, Trash2, Layout, Clock, Globe, Lock, User, Edit3 } from 'lucide-react';
 import { EditPortfolioModal } from '../components/modals/EditPortfolioModal';
+import LoadingEffect from '../components/common/LoadingEffect';
 
 const MyPortfolios = () => {
   const { user } = useAuth();
@@ -26,7 +27,7 @@ const MyPortfolios = () => {
         const q = query(collection(db, "portfolios"), where("userId", "==", user.uid));
         const querySnapshot = await getDocs(q);
         const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        // Sort by createdAt descending
+
         data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setPortfolios(data);
       } catch (err) {
@@ -62,8 +63,8 @@ const MyPortfolios = () => {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyItems: 'center', width: '100%' }}>
-        <p style={{ margin: 'auto', color: 'var(--text-secondary)' }}>Memuat portofolio Anda...</p>
+      <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+        <LoadingEffect text="Sedang mengambil koleksi portofolio kamu... Meow!" />
       </div>
     );
   }

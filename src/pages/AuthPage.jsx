@@ -14,8 +14,14 @@ const AuthPage = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   
-  const { login, register, loginWithGoogle } = useAuth();
+  const { user, login, register, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (user) {
+      navigate('/maker');
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,7 +76,7 @@ const AuthPage = () => {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        {/* Glow effect */}
+
         <div style={{
           position: 'absolute',
           top: '-100px',
