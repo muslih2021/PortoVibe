@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
-import { Header } from './components/common/Header';
-import { Footer } from './components/common/Footer';
-import { ProgressModal } from './components/modals/ProgressModal';
-import { ErrorModal } from './components/modals/ErrorModal';
-import { SuccessModal } from './components/modals/SuccessModal';
-import LandingPage from './pages/LandingPage';
-import Dashboard from './pages/Dashboard';
-import ShowcasePage from './pages/ShowcasePage';
-import PortfolioView from './pages/PortfolioView';
 import { usePortfolioGenerator } from './hooks/usePortfolioGenerator';
-import { ScrollToHash } from './utils/ScrollToHash';
 import { AuthProvider, useAuth } from './hooks/useAuth';
-import AuthPage from './pages/AuthPage';
-import MyPortfolios from './pages/MyPortfolios';
 import SplashScreen from './components/SplashScreen';
-import OfflineStatus from './components/common/OfflineStatus';
+
+
+const Header = React.lazy(() => import('./components/common/Header').then(m => ({ default: m.Header })));
+const Footer = React.lazy(() => import('./components/common/Footer').then(m => ({ default: m.Footer })));
+const ProgressModal = React.lazy(() => import('./components/modals/ProgressModal').then(m => ({ default: m.ProgressModal })));
+const ErrorModal = React.lazy(() => import('./components/modals/ErrorModal').then(m => ({ default: m.ErrorModal })));
+const SuccessModal = React.lazy(() => import('./components/modals/SuccessModal').then(m => ({ default: m.SuccessModal })));
+const ScrollToHash = React.lazy(() => import('./utils/ScrollToHash').then(m => ({ default: m.ScrollToHash })));
+const OfflineStatus = React.lazy(() => import('./components/common/OfflineStatus'));
+
+
+const LandingPage = React.lazy(() => import('./pages/LandingPage'));
+const Dashboard = React.lazy(() => import('./pages/Dashboard'));
+const ShowcasePage = React.lazy(() => import('./pages/ShowcasePage'));
+const PortfolioView = React.lazy(() => import('./pages/PortfolioView'));
+const AuthPage = React.lazy(() => import('./pages/AuthPage'));
+const MyPortfolios = React.lazy(() => import('./pages/MyPortfolios'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -34,7 +38,7 @@ function AppInner() {
   const staticPaths = ['/', '/maker', '/showcase', '/my-portfolios', '/auth'];
   const isPortfolioPage = !staticPaths.includes(location.pathname) && location.pathname !== '/';
   const [isAppLoading, setIsAppLoading] = useState(!isPortfolioPage);
-  
+
   const {
     isGenerating,
     progress,
@@ -73,58 +77,84 @@ function AppInner() {
 
   return (
     <div style={{ position: 'relative' }}>
-      <OfflineStatus />
+      <React.Suspense fallback={null}>
+        <OfflineStatus />
+      </React.Suspense>
+
       {isAppLoading && !isPortfolioPage && <SplashScreen onComplete={() => setIsAppLoading(false)} />}
+
       <ScrollToTop />
-      <ScrollToHash />
-      {showHeader && <Header theme={theme} toggleTheme={toggleTheme} />}
-      
-      {isGenerating && <ProgressModal progress={progress} />}
+
+      <React.Suspense fallback={null}>
+        <ScrollToHash />
+      </React.Suspense>
+
+      {showHeader && !isAppLoading && (
+        <React.Suspense fallback={null}>
+          <Header theme={theme} toggleTheme={toggleTheme} />
+        </React.Suspense>
+      )}
+
+      {isGenerating && (
+        <React.Suspense fallback={null}>
+          <ProgressModal progress={progress} />
+        </React.Suspense>
+      )}
 
       {errorMsg && (
-        <ErrorModal 
-          errorMsg={errorMsg} 
-          isRenderError={isRenderError} 
-          lastRequest={lastRequest}
-          onRegenerate={handleGenerate}
-          onClose={() => {
-            setErrorMsg(null);
-            setIsRenderError(false);
-            if (!isRenderError) navigate('/maker');
-          }}
-        />
+        <React.Suspense fallback={null}>
+          <ErrorModal
+            errorMsg={errorMsg}
+            isRenderError={isRenderError}
+            lastRequest={lastRequest}
+            onRegenerate={handleGenerate}
+            onClose={() => {
+              setErrorMsg(null);
+              setIsRenderError(false);
+              if (!isRenderError) navigate('/maker');
+            }}
+          />
+        </React.Suspense>
       )}
-      
+
       {showSuccess && (
-        <SuccessModal 
-          username={successUsername}
-          onView={() => {
-            window.open(`/${successUsername}`, '_blank');
-          }}
-          isGuest={!user}
-          onLogin={() => {
-            setShowSuccess(false);
-            navigate('/auth');
-          }}
-          onClose={() => {
-            setShowSuccess(false);
-            if (user) navigate('/my-portfolios');
-          }}
-        />
+        <React.Suspense fallback={null}>
+          <SuccessModal
+            username={successUsername}
+            onView={() => {
+              window.open(`/${successUsername}`, '_blank');
+            }}
+            isGuest={!user}
+            onLogin={() => {
+              setShowSuccess(false);
+              navigate('/auth');
+            }}
+            onClose={() => {
+              setShowSuccess(false);
+              if (user) navigate('/my-portfolios');
+            }}
+          />
+        </React.Suspense>
       )}
 
       <div style={{ paddingTop: showHeader ? '5rem' : '0', background: 'var(--bg)' }}>
-        <Routes>
-          <Route path="/" element={<LandingPage onStart={() => navigate('/maker')} />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/my-portfolios" element={<MyPortfolios />} />
-          <Route path="/maker" element={<Dashboard onGenerate={handleGenerate} isGenerating={isGenerating} setErrorMsg={setErrorMsg} />} />
-          <Route path="/showcase" element={<ShowcasePage />} />
-          <Route path="/:username" element={<PortfolioView onRenderError={handleRenderError} />} />
-        </Routes>
+        <React.Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<LandingPage onStart={() => navigate('/maker')} />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/my-portfolios" element={<MyPortfolios />} />
+            <Route path="/maker" element={<Dashboard onGenerate={handleGenerate} isGenerating={isGenerating} setErrorMsg={setErrorMsg} />} />
+            <Route path="/showcase" element={<ShowcasePage />} />
+            <Route path="/:username" element={<PortfolioView onRenderError={handleRenderError} />} />
+          </Routes>
+        </React.Suspense>
       </div>
-      
-      {showFooter && <Footer />}
+
+      {showFooter && !isAppLoading && (
+        <React.Suspense fallback={null}>
+          <Footer />
+        </React.Suspense>
+      )}
     </div>
   );
 }
@@ -138,3 +168,4 @@ export default function App() {
     </Router>
   );
 }
+

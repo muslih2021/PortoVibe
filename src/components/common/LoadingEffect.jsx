@@ -3,18 +3,20 @@ import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import catLottie from '../../assets/animations/cat-loading.lottie';
 
 const LoadingEffect = ({ size = 120, text = "Meow... PortoVibe is preparing something cool!" }) => {
-  const [lottieSource, setLottieSource] = useState(catLottie);
+  const [lottieSource, setLottieSource] = useState(() => {
+
+    try {
+      return localStorage.getItem('porto_cat_lottie') || catLottie;
+    } catch {
+      return catLottie;
+    }
+  });
 
   useEffect(() => {
-
     const persistLottie = async () => {
       try {
         const cachedData = localStorage.getItem('porto_cat_lottie');
-
-        if (cachedData) {
-
-          setLottieSource(cachedData);
-        } else {
+        if (!cachedData) {
 
           const response = await fetch(catLottie);
           const blob = await response.blob();
@@ -22,19 +24,29 @@ const LoadingEffect = ({ size = 120, text = "Meow... PortoVibe is preparing some
 
           reader.onloadend = () => {
             const base64data = reader.result;
-            localStorage.setItem('porto_cat_lottie', base64data);
-            setLottieSource(base64data);
+            try {
+              localStorage.setItem('porto_cat_lottie', base64data);
+            } catch (e) {
+              console.warn("Storage full or unavailable:", e);
+            }
           };
-
           reader.readAsDataURL(blob);
         }
       } catch (error) {
-        console.error("Gagal melakukan persist lottie:", error);
-        setLottieSource(catLottie);
+        console.error("Gagal melakukan lazy persist lottie:", error);
       }
     };
 
-    persistLottie();
+
+    const lazyTimer = setTimeout(() => {
+      if (typeof window.requestIdleCallback === 'function') {
+        window.requestIdleCallback(() => persistLottie());
+      } else {
+        persistLottie();
+      }
+    }, 2000);
+
+    return () => clearTimeout(lazyTimer);
   }, []);
 
   return (

@@ -48,11 +48,11 @@ export const Footer = () => (
       <img src={catGroup} alt="Kucing Vibe" style={{ width: '100%', maxWidth: '1400px', minWidth: '400px', height: 'auto', objectFit: 'contain', opacity: 0.9, filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.6))' }} loading="lazy" />
     </div>
 
-    <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '2rem', display: 'flex', justifyContent: 'space-between', color: '#555', fontSize: '0.9rem' }}>
-      <p>© 2026 PortoVibe AI. Built by Muslih Sahmat</p>
-      <div style={{ display: 'flex', gap: '2rem' }}>
+    <div className="footer-bottom" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '2rem', display: 'flex', justifyContent: 'space-between', color: '#555', fontSize: '0.9rem', marginTop: '2rem' }}>
+      <p>© 2026 PortoVibe. Built by Muslih Sahmat</p>
+      <div className="footer-bottom-info" style={{ display: 'flex', gap: '2rem' }}>
         <span>All Rights Reserved</span>
-        <span>Local Time: Makassar, ID</span>
+
       </div>
     </div>
   </footer>
