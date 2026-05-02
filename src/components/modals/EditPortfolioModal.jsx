@@ -94,6 +94,7 @@ export const EditPortfolioModal = ({ portfolio, onClose, onUpdate, apiKey }) => 
       <div className="vn-scene" style={{ maxWidth: '900px', width: '100%', position: 'relative' }}>
         <button
           onClick={onClose}
+          className="vn-close-button"
           style={{
             position: 'absolute',
             top: '-50px',
@@ -101,7 +102,8 @@ export const EditPortfolioModal = ({ portfolio, onClose, onUpdate, apiKey }) => 
             background: 'none',
             border: 'none',
             color: 'white',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            zIndex: 100
           }}
         >
           <X size={32} />
@@ -251,7 +253,15 @@ export const EditPortfolioModal = ({ portfolio, onClose, onUpdate, apiKey }) => 
           line-height: 1.4;
         }
 
+        .vn-close-button {
+          transition: all 0.3s ease;
+        }
+
         @media (max-width: 768px) {
+          .vn-close-button {
+            top: 10px !important;
+            right: 10px !important;
+          }
           .vn-actors {
             flex-direction: column;
             align-items: center;
