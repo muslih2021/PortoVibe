@@ -11,7 +11,7 @@ export const Footer = () => (
           <img src={logoWhite} alt="Logo" style={{ height: '45px', width: 'auto' }} loading="lazy" />
         </div>
         <p style={{ color: '#999', maxWidth: '300px', lineHeight: 1.6 }}>
-          Membangun masa depan profesional dengan AI. PortoVibe membantu Anda membuat portofolio bento yang memukau dalam sekejap.
+          Membangun masa depan profesional dengan AI. PortoVibe membantu Anda membuat portofolio yang memukau dalam sekejap.
         </p>
       </div>
 

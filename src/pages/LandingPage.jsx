@@ -121,14 +121,14 @@ const LandingPage = ({ onStart }) => {
   }, []);
 
   const benefits = [
-    { title: 'AI-Powered Layouts', desc: 'Tidak perlu desain manual. AI kami merancang layout bento yang sempurna untuk Anda.', icon: <HiLightningBolt size={32} style={{ fill: "url(#icon-gradient)" }} /> },
+    { title: 'AI-Powered Layouts', desc: 'Tidak perlu desain manual. AI kami merancang layout yang sempurna untuk Anda.', icon: <HiLightningBolt size={32} style={{ fill: "url(#icon-gradient)" }} /> },
     { title: 'Premium Themes', desc: 'Pilih dari berbagai filosofi desain mulai dari Bauhaus hingga Luxury Editorial.', icon: <LuPalette size={32} style={{ stroke: "url(#icon-gradient)" }} /> },
     { title: 'Instant Live URL', desc: 'Bagikan hasil karyamu ke dunia dengan URL unik yang langsung aktif.', icon: <HiGlobeAlt size={32} style={{ fill: "url(#icon-gradient)" }} /> },
     { title: 'Responsive Design', desc: 'Website Anda akan terlihat menakjubkan di ponsel, tablet, maupun desktop.', icon: <LuMonitorSmartphone size={32} style={{ stroke: "url(#icon-gradient)" }} /> }
   ];
 
   const faqs = [
-    { q: "Apa itu PortoVibe AI?", a: "PortoVibe AI adalah platform bento portfolio builder yang menggunakan kecerdasan buatan untuk mengubah CV Anda menjadi website portofolio yang mewah dan interaktif secara instan." },
+    { q: "Apa itu PortoVibe AI?", a: "PortoVibe AI adalah platform portfolio builder yang menggunakan kecerdasan buatan untuk mengubah CV Anda menjadi website portofolio yang mewah dan interaktif secara instan." },
     { q: "Apakah saya perlu bisa coding?", a: "Sama sekali tidak! PortoVibe dirancang agar siapa pun bisa membangun portofolio berkelas dunia tanpa menulis satu baris kode pun. AI kami yang akan menangani semua aspek teknis." },
     { q: "Bagaimana cara mengunggah CV?", a: "Anda cukup klik tombol 'Mulai Buat', pilih tema yang Anda sukai, lalu unggah file PDF CV Anda. AI akan langsung mengekstrak data Anda secara otomatis." },
     { q: "Apakah website hasil AI bisa diedit?", a: "Saat ini hasil website bersifat statis berdasarkan data CV Anda. Namun, Anda bisa melakukan 'Re-generate' dengan instruksi khusus untuk mengubah gaya atau fokus konten." },
