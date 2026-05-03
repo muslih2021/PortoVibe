@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../services/firebase';
@@ -23,9 +23,8 @@ const Portfolio = ({ onRenderError }) => {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           const data = docSnap.data();
-          
 
-          if (data.visibility === 'private' && (!user || user.uid !== data.userId)) {
+if (data.visibility === 'private' && (!user || user.uid !== data.userId)) {
             setAccessDenied(true);
           } else {
             setConfig(data);

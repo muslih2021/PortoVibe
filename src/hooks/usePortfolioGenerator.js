@@ -26,7 +26,7 @@ export const usePortfolioGenerator = () => {
   const [pendingPortfolio, setPendingPortfolio] = useState(null);
   const [limitStatus, setLimitStatus] = useState({ allowed: true });
 
-  const handleGenerate = async (text, notes, selectedTheme) => {
+  const handleGenerate = async (text, notes, selectedTheme, extraData) => {
     if (isGenerating) return;
 
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
@@ -36,8 +36,7 @@ export const usePortfolioGenerator = () => {
       return;
     }
 
-
-    if (user) {
+if (user) {
       const limit = await checkGenerationLimit(user.uid);
       if (!limit.allowed) {
         setLimitStatus(limit);
@@ -53,7 +52,7 @@ export const usePortfolioGenerator = () => {
       }
     }
 
-    const req = { text, notes, selectedTheme };
+    const req = { text, notes, selectedTheme, extraData };
     setLastRequest(req);
     localStorage.setItem('lastRequest', JSON.stringify(req));
 
@@ -64,8 +63,12 @@ export const usePortfolioGenerator = () => {
     if (!isRenderError) setAutoRetryCount(0);
 
     try {
-      const data = await callAI(text, notes, apiKey, selectedTheme, null, (current, total, status) => {
-        setProgress({ current, total, status });
+      const data = await callAI(text, notes, apiKey, selectedTheme, null, extraData, (current, total, status) => {
+
+        const friendlyStatus = status.toLowerCase().includes('model') 
+          ? `Mencoba membuat PortoVibe... (Percobaan ${current}/${total})` 
+          : status;
+        setProgress({ current, total, status: friendlyStatus });
       });
 
       if (data && data.meta && data.meta.username) {
@@ -88,13 +91,20 @@ export const usePortfolioGenerator = () => {
           }
         } else {
 
-          const ip = await getIpAddress();
-          await incrementIpCount(ip);
-          setPendingPortfolio(portfolioData);
-        }
-        
+          try {
+            const ip = await getIpAddress();
+            await incrementIpCount(ip);
 
-        setSuccessUsername(data.meta.username);
+await setDoc(doc(db, "portfolios", data.meta.username), portfolioData);
+
+localStorage.setItem('pendingAnonymousPortfolio', data.meta.username);
+            setPendingPortfolio(portfolioData);
+          } catch (guestError) {
+            console.error("Error saving anonymous portfolio:", guestError);
+          }
+        }
+
+setSuccessUsername(data.meta.username);
         setShowSuccess(true);
       } else {
         throw new Error('AI response missing username.');
@@ -122,7 +132,9 @@ export const usePortfolioGenerator = () => {
 
   return {
     isGenerating,
+    setIsGenerating,
     progress,
+    setProgress,
     errorMsg,
     setErrorMsg,
     lastRequest,
@@ -137,18 +149,25 @@ export const usePortfolioGenerator = () => {
     setPendingPortfolio,
     limitStatus,
     savePendingPortfolio: async (uid) => {
-      if (!pendingPortfolio) return;
+
+      const pendingUsername = pendingPortfolio?.meta?.username || localStorage.getItem('pendingAnonymousPortfolio');
+      
+      if (!pendingUsername) return;
+
       try {
-        const finalData = {
-          ...pendingPortfolio,
+        console.log(`Claiming anonymous portfolio ${pendingUsername} for user ${uid}`);
+
+const docRef = doc(db, "portfolios", pendingUsername);
+        await setDoc(docRef, { 
           userId: uid,
-          createdAt: new Date().toISOString()
-        };
-        await setDoc(doc(db, "portfolios", pendingPortfolio.meta.username), finalData);
-        await incrementGenerationCount(uid);
+          claimedAt: new Date().toISOString() 
+        }, { merge: true });
+
+localStorage.removeItem('pendingAnonymousPortfolio');
         setPendingPortfolio(null);
+        console.log("Portfolio successfully claimed!");
       } catch (e) {
-        console.error("Error saving pending portfolio:", e);
+        console.error("Error saving/claiming portfolio:", e);
       }
     }
   };

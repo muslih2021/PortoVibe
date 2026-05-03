@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import logoWhite from '../../assets/images/logo white 35.png';
 import catGroup from '../../assets/images/cat group.png';

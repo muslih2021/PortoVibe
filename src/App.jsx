@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import { usePortfolioGenerator } from './hooks/usePortfolioGenerator';
 import { AuthProvider, useAuth } from './hooks/useAuth';
 import SplashScreen from './components/SplashScreen';
-
 
 const Header = React.lazy(() => import('./components/common/Header').then(m => ({ default: m.Header })));
 const Footer = React.lazy(() => import('./components/common/Footer').then(m => ({ default: m.Footer })));
@@ -13,7 +12,6 @@ const ErrorModal = React.lazy(() => import('./components/modals/ErrorModal').the
 const SuccessModal = React.lazy(() => import('./components/modals/SuccessModal').then(m => ({ default: m.SuccessModal })));
 const ScrollToHash = React.lazy(() => import('./utils/ScrollToHash').then(m => ({ default: m.ScrollToHash })));
 const OfflineStatus = React.lazy(() => import('./components/common/OfflineStatus'));
-
 
 const LandingPage = React.lazy(() => import('./pages/LandingPage'));
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
@@ -41,7 +39,9 @@ function AppInner() {
 
   const {
     isGenerating,
+    setIsGenerating,
     progress,
+    setProgress,
     errorMsg,
     setErrorMsg,
     lastRequest,
@@ -57,10 +57,11 @@ function AppInner() {
   } = usePortfolioGenerator();
 
   useEffect(() => {
-    if (user && pendingPortfolio) {
+
+    if (user) {
       savePendingPortfolio(user.uid);
     }
-  }, [user, pendingPortfolio, savePendingPortfolio]);
+  }, [user, savePendingPortfolio]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -69,8 +70,7 @@ function AppInner() {
 
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
-
-  const isMakerPage = location.pathname === '/maker';
+const isMakerPage = location.pathname === '/maker';
 
   const showHeader = !isPortfolioPage;
   const showFooter = !isPortfolioPage && !isMakerPage;
@@ -143,7 +143,7 @@ function AppInner() {
             <Route path="/" element={<LandingPage onStart={() => navigate('/maker')} />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/my-portfolios" element={<MyPortfolios />} />
-            <Route path="/maker" element={<Dashboard onGenerate={handleGenerate} isGenerating={isGenerating} setErrorMsg={setErrorMsg} />} />
+            <Route path="/maker" element={<Dashboard onGenerate={handleGenerate} isGenerating={isGenerating} setIsGenerating={setIsGenerating} setProgress={setProgress} setErrorMsg={setErrorMsg} />} />
             <Route path="/showcase" element={<ShowcasePage />} />
             <Route path="/:username" element={<PortfolioView onRenderError={handleRenderError} />} />
           </Routes>

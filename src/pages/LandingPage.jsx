@@ -84,8 +84,7 @@ const LandingPage = ({ onStart }) => {
       setDisplayedText("");
       let currentIndex = 0;
 
-
-      playCatSound();
+playCatSound();
 
       const interval = setInterval(() => {
         if (currentIndex < targetText.length) {

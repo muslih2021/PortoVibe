@@ -61,7 +61,11 @@ first:Semua huruf warnanya haru kelihatan dengan baik jangan ada yang warana hur
 10. EVERY GENERATION MUST BE STRUCTURALLY UNIQUE. Do not stick to a generic "Bento Grid". If the user is a designer, make it artsy. If a developer, make it techy.
 11. Ensure the string is valid inside a JSON value (escape newlines as \\n, escape quotes as \\").
 12. JANGAN ADA KONTAK ME (Do not include a Contact Me section).
-#IMPORTAIN : NAVBAR MUST BE RESPONSIVE with hamburger menu when in small screen.
+13. **ASSETS & LINKS (NEW)**:
+    - If "profilePhoto" is provided in INPUT DATA, use it prominently in the Hero or About section.
+    - If "projectPhotos" array is provided, create a stunning "Project Gallery" or "Work Documentation" section. Show the photo and its corresponding name.
+    - If "socialLinks" array is provided, include them in the Navbar or Footer as clickable icons/links.
+14. #IMPORTAIN : NAVBAR MUST BE RESPONSIVE with hamburger menu when in small screen.
 
 # DESIGN VARIETY (MANDATORY)
 Every portfolio MUST look fundamentally different.
@@ -130,8 +134,9 @@ Return the updated FULL JSON object following the same schema.
   }
 }
 
-export async function callAI(resumeText, customNotes, apiKey, userSelectedTheme, username, onProgress) {
+export async function callAI(resumeText, customNotes, apiKey, userSelectedTheme, username, extraData, onProgress) {
   const truncatedText = resumeText;
+  const { profilePhoto, projectPhotos, socialLinks } = extraData || {};
 
   let themeContext = '';
   if (userSelectedTheme === 'Maximalism') themeContext = THEME_MAXIMALISM;
@@ -162,13 +167,23 @@ ${themeContext}
 CV CONTENT: ${truncatedText}
 USER NOTES: ${customNotes}
 
+# ADDITIONAL ASSETS (MANDATORY TO USE IF PROVIDED):
+PROFILE PHOTO URL: ${profilePhoto || 'None'}
+PROJECT PHOTOS: ${projectPhotos && projectPhotos.length > 0 ? JSON.stringify(projectPhotos) : 'None'}
+SOCIAL LINKS: ${socialLinks && socialLinks.length > 0 ? JSON.stringify(socialLinks) : 'None'}
+
 # USERNAME
 ${username || 'auto-generate'}
 
 # FINAL CRITICAL REMINDER BEFORE YOU GENERATE:
-I will check your output. If you summarize, shorten, or use dummy text (like "Detailed project implementation...") for ANY of my projects or experiences, YOU WILL FAIL.
-You MUST extract the EXACT bullet points from my CV CONTENT above and write them into the code verbatim. Do not truncate anything!
+1. I will check your output. If you summarize, shorten, or use dummy text for ANY of my projects or experiences, YOU WILL FAIL.
+2. You MUST extract the EXACT bullet points from my CV CONTENT above and write them into the code verbatim.
+3. If PROFILE PHOTO or PROJECT PHOTOS are provided, you MUST render them using <img> tags with the provided URLs in appropriate sections.
 `;
+
+  console.log('--- AI GENERATION PROMPT ---');
+  console.log(prompt);
+  console.log('----------------------------');
 
   try {
     return await tryWithFallback(prompt, apiKey, onProgress);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import catLottie from '../../assets/animations/cat-loading.lottie';
 
@@ -37,8 +37,7 @@ const LoadingEffect = ({ size = 120, text = "Meow... PortoVibe is preparing some
       }
     };
 
-
-    const lazyTimer = setTimeout(() => {
+const lazyTimer = setTimeout(() => {
       if (typeof window.requestIdleCallback === 'function') {
         window.requestIdleCallback(() => persistLottie());
       } else {

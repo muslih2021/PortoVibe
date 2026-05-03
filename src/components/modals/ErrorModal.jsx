@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { AlertCircle } from 'lucide-react';
 import catImage from '../../assets/images/cat_Eror.png';
 import cryingCatImage from '../../assets/images/kucing gagal kerja.png';

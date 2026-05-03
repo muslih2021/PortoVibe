@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import LoadingEffect from './common/LoadingEffect';
 
 const SplashScreen = ({ onComplete }) => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { X, Sparkles, Send } from 'lucide-react';
 import { refineAI } from '../../services/aiService';
 import { db } from '../../services/firebase';

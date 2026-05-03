@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+﻿import React, { useMemo, useRef } from 'react';
 import * as LucideIcons from 'lucide-react';
 import * as pdfjs from 'pdfjs-dist';
 import { transform } from '@babel/standalone';

@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+﻿import { GoogleGenerativeAI } from "@google/generative-ai";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "./firebase";
 
@@ -20,7 +20,7 @@ PENGETAHUAN TENTANG PORTOVIBE:
 3. Fitur Simpan Otomatis: Jika Guest membuat porto lalu langsung Login/Register, datanya akan otomatis tersimpan ke akun baru!
 4. Letak Menu: 
    - "Mulai Sekarang": Di tengah halaman utama (Hero section).
-   - "Lihat Contoh": Di navbar atas untuk melihat portofolio yang sudah dibuat. Portofolio bisa diakses langsung via URL: https://porto-vibe.vercel.app/username_kamu.
+   - "Lihat Contoh": Di navbar atas untuk melihat portofolio yang sudah dibuat. Portofolio bisa diakses langsung via URL: https:
    - "Portofolio Saya": Di navbar (setelah login), tempat kamu mengelola koleksi.
    - "Edit Portofolio": Klik ikon pensil pada kartu portofolio di halaman "Portofolio Saya".
    - "Lihat Contoh": Di navbar, untuk melihat inspirasi karya orang lain.

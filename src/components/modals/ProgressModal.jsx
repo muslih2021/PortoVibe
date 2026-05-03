@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import LoadingEffect from '../common/LoadingEffect';
 import workCatImage from '../../assets/images/kucing kerja 1.png';
 import workPawImage from '../../assets/images/tangan kucing kerja.png';
@@ -9,8 +9,7 @@ export const ProgressModal = ({ progress }) => {
   const [showCat, setShowCat] = useState(false);
   const [showBubble, setShowBubble] = useState(false);
 
-
-  useEffect(() => {
+useEffect(() => {
     const audio = new Audio(suaraKucing);
     audio.play().catch(e => console.error("Audio error:", e));
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { CheckCircle, ExternalLink, Layout, LogIn, AlertTriangle } from 'lucide-react';
 import suaraKucing from '../../assets/audio/suara kucing.mp3';
 

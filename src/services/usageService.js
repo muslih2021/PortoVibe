@@ -1,4 +1,4 @@
-import { db } from './firebase';
+﻿import { db } from './firebase';
 import { doc, getDoc, setDoc, updateDoc, increment, arrayUnion } from 'firebase/firestore';
 
 const DAILY_GENERATE_LIMIT = 3;
@@ -21,8 +21,8 @@ export const checkGenerationLimit = async (userId) => {
   }
 
   const count = data.generateCount || 0;
-  return { 
-    allowed: count < DAILY_GENERATE_LIMIT, 
+  return {
+    allowed: count < DAILY_GENERATE_LIMIT,
     remaining: DAILY_GENERATE_LIMIT - count,
     nextReset: getNextResetTime()
   };
@@ -63,8 +63,8 @@ export const checkEditLimit = async (userId) => {
   }
 
   const count = data.editCount || 0;
-  return { 
-    allowed: count < DAILY_EDIT_LIMIT, 
+  return {
+    allowed: count < DAILY_EDIT_LIMIT,
     remaining: DAILY_EDIT_LIMIT - count,
     nextReset: getNextResetTime()
   };
@@ -109,14 +109,14 @@ export const getIpAddress = async () => {
 export const checkIpLimit = async (ip) => {
   const usageRef = doc(db, 'ip_usage', ip.replace(/\./g, '_'));
   const usageSnap = await getDoc(usageRef);
-  
+
   if (!usageSnap.exists()) return { allowed: true };
-  
+
   const data = usageSnap.data();
   const today = new Date().toISOString().split('T')[0];
-  
+
   if (data.lastDate !== today) return { allowed: true };
-  
+
   return { allowed: data.count < 1 };
 };
 
@@ -124,7 +124,7 @@ export const incrementIpCount = async (ip) => {
   const key = ip.replace(/\./g, '_');
   const usageRef = doc(db, 'ip_usage', key);
   const today = new Date().toISOString().split('T')[0];
-  
+
   await setDoc(usageRef, {
     lastDate: today,
     count: increment(1)
