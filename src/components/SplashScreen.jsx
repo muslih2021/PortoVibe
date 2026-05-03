@@ -1,16 +1,28 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import LoadingEffect from './common/LoadingEffect';
 
-const SplashScreen = ({ onComplete }) => {
+const SplashScreen = ({ isReady, onComplete }) => {
   const [show, setShow] = useState(true);
+  const hasExited = useRef(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    if (isReady && !hasExited.current) {
+      hasExited.current = true;
       setShow(false);
       setTimeout(onComplete, 500);
-    }, 3000);
+    }
+  }, [isReady, onComplete]);
 
-    return () => clearTimeout(timer);
+  // Fallback: dismiss after max 8 seconds regardless
+  useEffect(() => {
+    const fallback = setTimeout(() => {
+      if (!hasExited.current) {
+        hasExited.current = true;
+        setShow(false);
+        setTimeout(onComplete, 500);
+      }
+    }, 8000);
+    return () => clearTimeout(fallback);
   }, [onComplete]);
 
   return (
@@ -29,7 +41,7 @@ const SplashScreen = ({ onComplete }) => {
       visibility: show ? 'visible' : 'hidden',
       transition: 'opacity 0.5s ease, visibility 0.5s ease'
     }}>
-      <LoadingEffect size={150} text="PortoVibe By Muslih" />
+      <LoadingEffect size={150} text="PortoVibe By Muslih" eagerCache />
     </div>
   );
 };

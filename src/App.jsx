@@ -1,9 +1,10 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import { usePortfolioGenerator } from './hooks/usePortfolioGenerator';
 import { AuthProvider, useAuth } from './hooks/useAuth';
 import SplashScreen from './components/SplashScreen';
+import LoadingEffect from './components/common/LoadingEffect';
 
 const Header = React.lazy(() => import('./components/common/Header').then(m => ({ default: m.Header })));
 const Footer = React.lazy(() => import('./components/common/Footer').then(m => ({ default: m.Footer })));
@@ -28,6 +29,20 @@ function ScrollToTop() {
   return null;
 }
 
+function PageLoader() {
+  return (
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '60vh',
+      background: 'var(--bg)'
+    }}>
+      <LoadingEffect size={100} text="" />
+    </div>
+  );
+}
+
 function AppInner() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,6 +51,47 @@ function AppInner() {
   const staticPaths = ['/', '/maker', '/showcase', '/my-portfolios', '/auth'];
   const isPortfolioPage = !staticPaths.includes(location.pathname) && location.pathname !== '/';
   const [isAppLoading, setIsAppLoading] = useState(!isPortfolioPage);
+  const [criticalReady, setCriticalReady] = useState(false);
+  const initialPath = useRef(location.pathname);
+
+  // Preload critical chunks during splash
+  useEffect(() => {
+    if (isPortfolioPage) return;
+
+    const preload = async () => {
+      const minDelay = new Promise(r => setTimeout(r, 2500));
+
+      const chunks = [
+        import('./components/common/Header'),
+        import('./components/common/Footer'),
+      ];
+
+      switch (initialPath.current) {
+        case '/': chunks.push(import('./pages/LandingPage')); break;
+        case '/maker': chunks.push(import('./pages/Dashboard')); break;
+        case '/showcase': chunks.push(import('./pages/ShowcasePage')); break;
+        case '/auth': chunks.push(import('./pages/AuthPage')); break;
+        case '/my-portfolios': chunks.push(import('./pages/MyPortfolios')); break;
+      }
+
+      const lottieReady = new Promise(resolve => {
+        if (localStorage.getItem('porto_cat_lottie')) {
+          resolve();
+          return;
+        }
+        const handler = () => { resolve(); window.removeEventListener('lottie-cached', handler); };
+        window.addEventListener('lottie-cached', handler);
+        setTimeout(resolve, 5000);
+      });
+      chunks.push(lottieReady);
+
+      await Promise.all([minDelay, ...chunks]);
+    };
+
+    preload()
+      .then(() => setCriticalReady(true))
+      .catch(() => setCriticalReady(true));
+  }, []);
 
   const {
     isGenerating,
@@ -70,10 +126,11 @@ function AppInner() {
 
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
-const isMakerPage = location.pathname === '/maker';
+  const isNotShow = location.pathname === '/maker' || location.pathname === '/my-portfolios' || location.pathname === '/showcase';
+
 
   const showHeader = !isPortfolioPage;
-  const showFooter = !isPortfolioPage && !isMakerPage;
+  const showFooter = !isPortfolioPage && !isNotShow;
 
   return (
     <div style={{ position: 'relative' }}>
@@ -81,7 +138,7 @@ const isMakerPage = location.pathname === '/maker';
         <OfflineStatus />
       </React.Suspense>
 
-      {isAppLoading && !isPortfolioPage && <SplashScreen onComplete={() => setIsAppLoading(false)} />}
+      {isAppLoading && !isPortfolioPage && <SplashScreen isReady={criticalReady} onComplete={() => setIsAppLoading(false)} />}
 
       <ScrollToTop />
 
@@ -138,7 +195,7 @@ const isMakerPage = location.pathname === '/maker';
       )}
 
       <div style={{ paddingTop: showHeader ? '5rem' : '0', background: 'var(--bg)' }}>
-        <React.Suspense fallback={null}>
+        <React.Suspense fallback={isAppLoading ? null : <PageLoader />}>
           <Routes>
             <Route path="/" element={<LandingPage onStart={() => navigate('/maker')} />} />
             <Route path="/auth" element={<AuthPage />} />

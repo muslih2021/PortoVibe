@@ -131,7 +131,7 @@ const LandingPage = ({ onStart }) => {
     { q: "Apa itu PortoVibe AI?", a: "PortoVibe AI adalah platform portfolio builder yang menggunakan kecerdasan buatan untuk mengubah CV Anda menjadi website portofolio yang mewah dan interaktif secara instan." },
     { q: "Apakah saya perlu bisa coding?", a: "Sama sekali tidak! PortoVibe dirancang agar siapa pun bisa membangun portofolio berkelas dunia tanpa menulis satu baris kode pun. AI kami yang akan menangani semua aspek teknis." },
     { q: "Bagaimana cara mengunggah CV?", a: "Anda cukup klik tombol 'Mulai Buat', pilih tema yang Anda sukai, lalu unggah file PDF CV Anda. AI akan langsung mengekstrak data Anda secara otomatis." },
-    { q: "Apakah website hasil AI bisa diedit?", a: "Saat ini hasil website bersifat statis berdasarkan data CV Anda. Namun, Anda bisa melakukan 'Re-generate' dengan instruksi khusus untuk mengubah gaya atau fokus konten." },
+    { q: "Apakah website hasil AI bisa diedit?", a: "Gak perlu ribet edit manual. Tinggal kasih perintah lewat AI buat ubah bagian yang Anda mau, atau 'Re-generate' dengan instruksi khusus untuk dapet hasil yang lebih pas dengan keinginan Anda." },
     { q: "Apakah ini gratis?", a: "Ya! Anda bisa mencoba membuat dan melihat portofolio Anda secara gratis sebagai bagian dari komitmen kami membantu profesional tampil menonjol." }
   ];
 

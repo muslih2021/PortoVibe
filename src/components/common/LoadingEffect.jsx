@@ -1,10 +1,9 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import catLottie from '../../assets/animations/cat-loading.lottie';
 
-const LoadingEffect = ({ size = 120, text = "Meow... PortoVibe is preparing something cool!" }) => {
+const LoadingEffect = ({ size = 120, text = "Meow... PortoVibe is preparing something cool!", eagerCache = false }) => {
   const [lottieSource, setLottieSource] = useState(() => {
-
     try {
       return localStorage.getItem('porto_cat_lottie') || catLottie;
     } catch {
@@ -16,37 +15,44 @@ const LoadingEffect = ({ size = 120, text = "Meow... PortoVibe is preparing some
     const persistLottie = async () => {
       try {
         const cachedData = localStorage.getItem('porto_cat_lottie');
-        if (!cachedData) {
-
-          const response = await fetch(catLottie);
-          const blob = await response.blob();
-          const reader = new FileReader();
-
-          reader.onloadend = () => {
-            const base64data = reader.result;
-            try {
-              localStorage.setItem('porto_cat_lottie', base64data);
-            } catch (e) {
-              console.warn("Storage full or unavailable:", e);
-            }
-          };
-          reader.readAsDataURL(blob);
+        if (cachedData) {
+          window.dispatchEvent(new Event('lottie-cached'));
+          return;
         }
+
+        const response = await fetch(catLottie);
+        const blob = await response.blob();
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+          const base64data = reader.result;
+          try {
+            localStorage.setItem('porto_cat_lottie', base64data);
+          } catch (e) {
+            console.warn("Storage full or unavailable:", e);
+          }
+          window.dispatchEvent(new Event('lottie-cached'));
+        };
+        reader.readAsDataURL(blob);
       } catch (error) {
         console.error("Gagal melakukan lazy persist lottie:", error);
+        window.dispatchEvent(new Event('lottie-cached'));
       }
     };
 
-const lazyTimer = setTimeout(() => {
-      if (typeof window.requestIdleCallback === 'function') {
-        window.requestIdleCallback(() => persistLottie());
-      } else {
-        persistLottie();
-      }
-    }, 2000);
-
-    return () => clearTimeout(lazyTimer);
-  }, []);
+    if (eagerCache) {
+      persistLottie();
+    } else {
+      const lazyTimer = setTimeout(() => {
+        if (typeof window.requestIdleCallback === 'function') {
+          window.requestIdleCallback(() => persistLottie());
+        } else {
+          persistLottie();
+        }
+      }, 2000);
+      return () => clearTimeout(lazyTimer);
+    }
+  }, [eagerCache]);
 
   return (
     <div className="loading-v4-container" style={{
