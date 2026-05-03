@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { LuPalette, LuMonitorSmartphone } from "react-icons/lu";
 import { HiLightningBolt } from "react-icons/hi";
@@ -84,7 +84,8 @@ const LandingPage = ({ onStart }) => {
       setDisplayedText("");
       let currentIndex = 0;
 
-playCatSound();
+
+      playCatSound();
 
       const interval = setInterval(() => {
         if (currentIndex < targetText.length) {

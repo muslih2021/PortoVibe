@@ -73,11 +73,20 @@ if (user) {
 
       if (data && data.meta && data.meta.username) {
 
+        // Susun data_foto dari extraData untuk fitur edit foto nanti
+        const dataFoto = {
+          porto_foto_url: extraData?.profilePhoto || null,
+          foto_project: (extraData?.projectPhotos || [])
+            .filter(p => p.url)
+            .map(p => ({ name: p.name || '', foto: p.url }))
+        };
+
         const portfolioData = {
           ...data,
           userId: user?.uid || 'anonymous',
           visibility: 'public',
-          createdAt: new Date().toISOString()
+          createdAt: new Date().toISOString(),
+          data_foto: dataFoto
         };
 
         if (user) {

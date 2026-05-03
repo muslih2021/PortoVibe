@@ -106,14 +106,35 @@ const GEMINI_MODELS = [
   "gemini-2.5-flash",
 ];
 
-export async function refineAI(existingData, userPrompt, apiKey, onProgress) {
+export async function refineAI(existingData, userPrompt, apiKey, pendingReplacements = {}, newPhotos = [], onProgress) {
+  // Susun instruksi penggantian URL jika ada foto yang diganti
+  const replacementEntries = Object.values(pendingReplacements).filter(r => r.oldUrl && r.newUrl);
+  const urlReplacementInstruction = replacementEntries.length > 0
+    ? `
+# PHOTO URL REPLACEMENTS (WAJIB DITERAPKAN):
+Ganti SEMUA kemunculan URL berikut di dalam "componentCode":
+${replacementEntries.map((r, i) => `${i + 1}. GANTI: "${r.oldUrl}" → DENGAN: "${r.newUrl}"`).join('\n')}
+Pastikan tidak ada URL lama yang tersisa. Ini adalah penggantian foto yang sudah diupload oleh user.
+`
+    : '';
+
+  // Susun instruksi penambahan foto baru
+  const newPhotosInstruction = newPhotos.length > 0
+    ? `
+# NEW PHOTOS TO ADD (WAJIB DITAMBAHKAN):
+User telah mengunggah foto baru. Anda WAJIB menambahkan foto-foto ini ke bagian dokumentasi/galeri (atau buat bagian galeri jika belum ada) di dalam "componentCode":
+${newPhotos.map((p, i) => `${i + 1}. NAMA/JUDUL: "${p.name}", URL FOTO: "${p.newUrl}"`).join('\n')}
+Pastikan tag <img> menggunakan URL tersebut dengan benar.
+`
+    : '';
+
   const prompt = `
 # ORIGINAL PORTFOLIO DATA:
 ${JSON.stringify(existingData, null, 2)}
 
 # USER REFINEMENT COMMAND:
 "${userPrompt}"
-
+${urlReplacementInstruction}${newPhotosInstruction}
 # TASK:
 You are an incremental code editor. Modify the existing "componentCode", "theme", or "meta" based STRICTLY on the user command.
 1. DO NOT REWRITE THE ENTIRE COMPONENT from scratch.
@@ -122,6 +143,8 @@ You are an incremental code editor. Modify the existing "componentCode", "theme"
 4. Only apply the requested changes/fixes.
 5. If the user asks for a color change, only change the color tokens in the theme and the styles in the componentCode.
 6. If the user asks to add a section, insert it into the existing structure without changing other sections.
+7. If PHOTO URL REPLACEMENTS are provided above, apply ALL of them without exception.
+8. If NEW PHOTOS TO ADD are provided above, append them to the existing project/gallery section without exception.
 
 Return the updated FULL JSON object following the same schema.
 `;

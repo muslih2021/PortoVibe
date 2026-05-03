@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Upload, Sparkles, Link as LinkIcon, Info, User, Image, Plus, Trash2, Globe, ExternalLink } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
@@ -336,9 +336,8 @@ const Dashboard = ({ onGenerate, isGenerating, setIsGenerating, setProgress, set
         </div>
 
         {/* Section: Mandatory Input */}
-        <div style={{
-          background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '32px',
-          padding: '3rem', textAlign: 'left', marginBottom: '2rem', boxShadow: '0 20px 40px rgba(0,0,0,0.05)',
+        <div className="dashboard-section-card" style={{
+          marginBottom: '2rem',
           opacity: (isGenerating || isProcessing) ? 0.7 : 1,
           pointerEvents: (isGenerating || isProcessing) ? 'none' : 'auto'
         }}>
@@ -368,9 +367,8 @@ const Dashboard = ({ onGenerate, isGenerating, setIsGenerating, setProgress, set
         </div>
 
         {/* Section: Optional Assets */}
-        <div style={{
-          background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '32px',
-          padding: '3rem', textAlign: 'left', marginBottom: '4rem', boxShadow: '0 20px 40px rgba(0,0,0,0.05)',
+        <div className="dashboard-section-card" style={{
+          marginBottom: '4rem',
           opacity: (isGenerating || isProcessing) ? 0.7 : 1,
           pointerEvents: (isGenerating || isProcessing) ? 'none' : 'auto'
         }}>
@@ -472,16 +470,12 @@ const Dashboard = ({ onGenerate, isGenerating, setIsGenerating, setProgress, set
 
           {/* Section 4: Project Documentation */}
           <div style={{ marginBottom: '3rem' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', fontWeight: 700, fontSize: '1.1rem', color: 'var(--text)' }}>
+            <label className='text-dokumentasi-header' >
               <Image size={20} color="#8b5cf6" /> Dokumentasi Kegiatan/Project/Pekerjaan (Maks 10)
             </label>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               {projectPhotos.map((p) => (
-                <div key={p.id} style={{
-                  background: 'var(--bg)', borderRadius: '16px', padding: '1.5rem',
-                  border: '1px solid var(--card-border)', display: 'flex', gap: '1.5rem',
-                  alignItems: 'center', position: 'relative'
-                }}>
+                <div key={p.id} className="project-photo-row">
                   <button
                     onClick={() => removeProjectPhoto(p.id)}
                     style={{ position: 'absolute', top: '-10px', right: '-10px', background: '#ef4444', color: 'white', border: 'none', borderRadius: '50%', width: '24px', height: '24px', cursor: 'pointer', zIndex: 10 }}
@@ -489,7 +483,7 @@ const Dashboard = ({ onGenerate, isGenerating, setIsGenerating, setProgress, set
                     ×
                   </button>
 
-                  <div style={{ flex: 1 }}>
+                  <div className="project-photo-input">
                     <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem' }}>Nama Kegiatan/Project</label>
                     <input
                       placeholder="Contoh: Juara 1 Lomba UI/UX"
@@ -499,7 +493,7 @@ const Dashboard = ({ onGenerate, isGenerating, setIsGenerating, setProgress, set
                     />
                   </div>
 
-                  <div style={{ width: '150px' }}>
+                  <div className="project-photo-upload">
                     <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem' }}>Foto (Maks 1)</label>
                     <input
                       type="file"
